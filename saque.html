@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Angola - Saque</title>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1021530033092309');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1021530033092309&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            position: fixed;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .balance-container {
+            background-color: #1a1a1a;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            color: #1ed760;
+            font-size: 16px;
+            border: 1px solid #333;
+        }
+
+        .container {
+            margin-top: 100px;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            object-fit: cover;
+            max-height: 250px;
+        }
+
+        h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .payment-methods {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .method {
+            background-color: #1e1e1e;
+            /* Darker grey */
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .method img,
+        .method svg {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .method span {
+            font-size: 12px;
+            color: #b3b3b3;
+            font-weight: 600;
+        }
+
+        .method.selected {
+            border-color: #1ed760;
+            background-color: rgba(30, 215, 96, 0.1);
+        }
+
+        .method.selected span {
+            color: #1ed760;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 16px;
+            background-color: #ddd;
+            /* Light background for input as per Spotify usually or keep dark? User image showed white input */
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+            margin-bottom: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background-color: #fff;
+            /* White button as per user image? Or green? Image showed white */
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.1s;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* POPUP STYLES */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid #1ed760;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .processing-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .error-popup-content {
+            background-color: #121212;
+            padding: 40px 20px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .error-icon {
+            width: 80px;
+            height: 80px;
+            background-color: #ff4444;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .warning-bar {
+            background-color: #ff8800;
+            color: white;
+            width: 100%;
+            padding: 10px;
+            font-weight: 700;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 16px;
+            text-transform: uppercase;
+        }
+
+        .info-text {
+            color: #ccc;
+            font-size: 13px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .highlight-text {
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-activate {
+            background-color: white;
+            color: black;
+            font-weight: 800;
+            text-transform: uppercase;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" alt="Spotify"
+            class="logo">
+        <div class="balance-container" id="headerBalance">0,00 Kz</div>
+    </div>
+
+    <div class="container">
+        <!-- New Hero Image -->
+        <img src="saque_hero.png" alt="Celebration" class="hero-image">
+
+        <h2>Selecione seu método de saque</h2>
+
+        <div class="payment-methods">
+            <div class="method selected" id="methodExpress" onclick="selectMethod('express')">
+                <!-- Express Logo -->
+                <img src="express.svg" alt="Express">
+                <span>Express</span>
+            </div>
+            <div class="method" id="methodBank" onclick="selectMethod('bank')">
+                <!-- Transferencia Logo -->
+                <img src="tranferencia.webp" alt="Transferencia">
+                <span>Transferência</span>
+            </div>
+        </div>
+
+        <input type="text" id="withdrawInput" placeholder="Digite seu n° de telefone">
+
+        <button class="btn-submit" onclick="startWithdrawal()">REALIZAR SAQUE</button>
+    </div>
+
+    <!-- PROCESSING OVERLAY -->
+    <div class="overlay" id="processingOverlay">
+        <div class="spinner"></div>
+        <div class="processing-text">Processando saque...</div>
+    </div>
+
+    <!-- ERROR/UNLOCK OVERLAY -->
+    <div class="overlay" id="unlockOverlay">
+        <div class="error-popup-content">
+            <div class="error-icon">!</div>
+            <h2>Desbloqueie seu saldo!</h2>
+
+            <div class="warning-bar" id="errorMethodText">
+                Express não cadastrado...
+            </div>
+
+            <p class="info-text">
+                Para receber o seu 1º saque no valor de <span class="highlight-text" id="popupBalanceVal">0,00
+                    Kz</span>, ative sua conta para cadastrar o seu método de pagamento.
+            </p>
+
+            <p class="info-text">
+                Implementamos uma taxa anti-fraudes para prevenir fraudes e abusos nos saques que estavam ocorrendo no
+                sistema.
+            </p>
+
+            <p class="info-text" style="color: #1ed760;">
+                Fique tranquilo, você receberá o valor da taxa de volta juntamente com o montante do seu saque.
+            </p>
+
+            <button class="btn-activate" onclick="window.location.href='taxa.html'">ATIVAR CADASTRO E
+                SACAR</button>
+        </div>
+    </div>
+
+    <script>
+        // Load Balance
+        const currentBalance = parseFloat(localStorage.getItem('spotifyAngolaBalance')) || 0;
+        document.getElementById('headerBalance').innerText = currentBalance.toLocaleString('pt-AO') + ' Kz';
+
+        let currentMethod = 'express';
+        const inputField = document.getElementById('withdrawInput');
+
+        // Initial setup
+        setFormat('express');
+
+        function selectMethod(method) {
+            currentMethod = method;
+
+            // UI Updates
+            document.getElementById('methodExpress').classList.toggle('selected', method === 'express');
+            document.getElementById('methodBank').classList.toggle('selected', method === 'bank');
+
+            setFormat(method);
+        }
+
+        function setFormat(method) {
+            inputField.value = ''; // Clear first
+            if (method === 'express') {
+                inputField.placeholder = "Digite seu n° de telefone";
+                inputField.value = "+244 ";
+                inputField.maxLength = 16; // +244 (5 chars) + 9 digits + 2 spaces = 16
+            } else {
+                inputField.placeholder = "Digite seu IBAN";
+                inputField.value = "AO06 ";
+                inputField.maxLength = 32; // AO06 (5) + 21 digits + 5 spaces = ~31
+            }
+        }
+
+        inputField.addEventListener('input', function (e) {
+            let value = e.target.value;
+
+            if (currentMethod === 'express') {
+                // Ensure starts with +244
+                if (!value.startsWith('+244 ')) {
+                    value = '+244 ' + value.replace('+244', '').trim();
+                }
+
+                // Extract only numbers after the prefix
+                let rawNums = value.substring(5).replace(/\D/g, '');
+
+                // Limit to 9 digits
+                if (rawNums.length > 9) rawNums = rawNums.substring(0, 9);
+
+                // Format: XXX XXX XXX
+                let formatted = '+244 ';
+                if (rawNums.length > 0) formatted += rawNums.substring(0, 3);
+                if (rawNums.length > 3) formatted += ' ' + rawNums.substring(3, 6);
+                if (rawNums.length > 6) formatted += ' ' + rawNums.substring(6, 9);
+
+                e.target.value = formatted;
+
+            } else {
+                // Ensure starts with AO06
+                if (!value.startsWith('AO06 ')) {
+                    value = 'AO06 ' + value.replace('AO06', '').trim();
+                }
+
+                // Extract numbers
+                let rawNums = value.substring(5).replace(/\D/g, '');
+
+                // Limit to 21 digits for standard AO IBAN
+                if (rawNums.length > 21) rawNums = rawNums.substring(0, 21);
+
+                // Format: XXXX XXXX XXXX XXXX X (Blocks of 4)
+                let formatted = 'AO06 ';
+                for (let i = 0; i < rawNums.length; i++) {
+                    if (i > 0 && i % 4 === 0) formatted += ' ';
+                    formatted += rawNums[i];
+                }
+
+                e.target.value = formatted;
+            }
+        });
+
+        // Prevent deleting the prefix
+        inputField.addEventListener('keydown', function (e) {
+            if (e.key === 'Backspace') {
+                if (currentMethod === 'express' && this.value.length <= 5) e.preventDefault();
+                if (currentMethod === 'bank' && this.value.length <= 5) e.preventDefault();
+            }
+        });
+
+        function startWithdrawal() {
+            // Basic Validation
+            const val = inputField.value;
+            if (currentMethod === 'express' && val.length < 13) { // +244 + 9 digits + spaces
+                alert("Por favor, digite um número válido.");
+                return;
+            }
+            if (currentMethod === 'bank' && val.length < 10) {
+                alert("Por favor, digite um IBAN válido.");
+                return;
+            }
+
+            // Show Processing
+            document.getElementById('processingOverlay').style.display = 'flex';
+
+            // Wait 3 seconds
+            setTimeout(() => {
+                document.getElementById('processingOverlay').style.display = 'none';
+                showUnlockPopup();
+            }, 3000);
+        }
+
+        function showUnlockPopup() {
+            // Update Text Dynamic
+            const txt = currentMethod === 'express' ? "Express não cadastrado..." : "IBAN não cadastrado...";
+            document.getElementById('errorMethodText').innerText = txt;
+
+            // Value
+            document.getElementById('popupBalanceVal').innerText = currentBalance.toLocaleString('pt-AO') + ' Kz';
+
+            document.getElementById('unlockOverlay').style.display = 'flex';
+        }
+    </script>
+</body>
+
+</html>

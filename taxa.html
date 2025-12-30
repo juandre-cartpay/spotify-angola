@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desbloqueio de Saldo</title>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1021530033092309');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1021530033092309&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #fff;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .top-bar {
+            width: 100%;
+            background-color: #1ed760;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-weight: 800;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            height: 30px;
+        }
+
+        .balance-box {
+            border: 2px solid #1ed760;
+            padding: 5px 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .balance-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #777;
+        }
+
+        .balance-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #000;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 600px;
+            padding: 30px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #1ed760;
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        p {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .video-container {
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar">
+        ASSISTA O VÍDEO ABAIXO PARA LIBERAR SEU SAQUE E ACESSO VITALÍCIO.
+    </div>
+
+    <div class="header">
+        <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" alt="Spotify"
+            class="logo">
+        <div class="balance-box">
+            <div class="balance-label">Saldo</div>
+            <div class="balance-value" id="displayBalance">0,00 Kz</div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>DESBLOQUEIO DE SALDO</h1>
+        <p>Veja como liberar seu saque assistindo ao vídeo.</p>
+
+        <div class="video-container">
+            <!-- Vturb Player -->
+            <vturb-smartplayer id="vid-69533dc5818b1961afdb19c8"
+                style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer>
+            <script
+                type="text/javascript"> var s = document.createElement("script"); s.src = "https://scripts.converteai.net/f9d30f23-5a80-46a0-9498-27145c797a2f/players/69533dc5818b1961afdb19c8/v4/player.js", s.async = !0, document.head.appendChild(s); </script>
+        </div>
+    </div>
+
+    <script>
+        // Load Balance
+        const currentBalance = parseFloat(localStorage.getItem('spotifyAngolaBalance')) || 0;
+        document.getElementById('displayBalance').innerText = currentBalance.toLocaleString('pt-AO') + ' Kz';
+    </script>
+</body>
+
+</html>

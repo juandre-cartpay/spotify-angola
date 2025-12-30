@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Dashboard</title>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1021530033092309');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1021530033092309&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Header */
+        header {
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logo svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .superscript {
+            font-size: 10px;
+            vertical-align: super;
+            color: #b3b3b3;
+        }
+
+        .balance-container {
+            background-color: #333;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        /* Main Content */
+        .container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #1ed760;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .artist-container {
+            width: 100%;
+            height: 300px;
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .artist-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        /* Questions */
+        .question-block {
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .artist-name {
+            font-weight: 700;
+        }
+
+        /* Slider */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            background: #444;
+            border-radius: 5px;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #1ed760;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(30, 215, 96, 0.5);
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #b3b3b3;
+            font-weight: 600;
+        }
+
+        /* Yes/No Buttons */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .btn-option {
+            flex: 1;
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-option:hover {
+            background-color: #444;
+        }
+
+        .btn-option.selected-yes {
+            background-color: #1ed760;
+            color: #000;
+        }
+
+        .btn-option.selected-no {
+            background-color: #e91e63;
+            color: #fff;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background-color: #1ed760;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.1s;
+        }
+
+        .btn-submit:hover {
+            background-color: #1fdf64;
+            transform: scale(1.01);
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #1ed760;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+    <style>
+        /* Popup Styles */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup {
+            background-color: #1ed760;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 30px rgba(30, 215, 96, 0.6);
+            animation: popIn 0.3s ease-out;
+            color: #000;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-img {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .popup-amount {
+            font-size: 48px;
+            font-weight: 800;
+            margin: 10px 0;
+            color: #000;
+        }
+
+        /* Coin Animation */
+        .coin-wrapper {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            perspective: 1000px;
+        }
+
+        .coin {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: spin 3s infinite linear;
+        }
+
+        .coin-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center, #ffd700 0%, #d4af37 100%);
+            border: 4px solid #b8860b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #b8860b;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            backface-visibility: hidden;
+        }
+
+        .coin-face.back {
+            transform: rotateY(180deg);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                bottom: -100px;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 20px;
+                opacity: 1;
+            }
+        }
+
+        /* Checkmark Animation */
+        .checkmark-svg {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px auto;
+            display: block;
+        }
+
+        .checkmark-circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #1ed760;
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+
+        .checkmark-check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            stroke: #1ed760;
+            stroke-width: 3;
+            fill: none;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+        }
+
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="#1ed760">
+                <path
+                    d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.299z" />
+            </svg>
+            <span class="logo-text">Spotify<span class="superscript">®</span></span>
+        </div>
+        <div class="balance-container">
+            0 Kz
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="section-title">Avalie o artista abaixo e ganhe por isso</div>
+
+        <div class="artist-container">
+            <!-- Artist Image -->
+            <img src="" alt="Artista" class="artist-image" id="artistImage">
+        </div>
+
+        <!-- Question 1 -->
+        <div class="question-block">
+            <p class="question-text">De bom a ruim, qual nota você daria para as músicas de <span class="artist-name"
+                    id="artistName1">C4
+                    Pedro</span>?</p>
+            <div class="slider-container">
+                <input type="range" min="0" max="2" step="1" value="1" id="ratingSlider">
+                <div class="slider-labels">
+                    <span onclick="setSlider(0)">Ruim</span>
+                    <span onclick="setSlider(1)">Normal</span>
+                    <span onclick="setSlider(2)">Bom</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-block">
+            <p class="question-text">Recomendaria <span id="genderText1">o cantor</span> <span class="artist-name"
+                    id="artistName2">C4 Pedro</span> para seus amigos e familiares?</p>
+            <div class="btn-group">
+                <button class="btn-option" id="btnYes" onclick="selectRecommendation('yes')">Sim</button>
+                <button class="btn-option" id="btnNo" onclick="selectRecommendation('no')">Não</button>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-block">
+            <p class="question-text">Qual faixa etária você acha que mais escuta <span id="genderText2">o cantor</span>
+                <span class="artist-name" id="artistName3">C4 Pedro</span>?
+            </p>
+            <div class="btn-group">
+                <button class="btn-option age-btn" onclick="toggleSelection(this)">-18 anos</button>
+                <button class="btn-option age-btn" onclick="toggleSelection(this)">+18 anos</button>
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="showReward()">
+            Enviar respostas
+            <div class="check-icon">✓</div>
+        </button>
+
+    </div>
+
+    <div class="overlay" id="rewardPopup">
+        <div class="popup">
+            <div class="coin-wrapper">
+                <div class="coin">
+                    <div class="coin-face front">Kz</div>
+                    <div class="coin-face back">Kz</div>
+                </div>
+            </div>
+            <div class="popup-title">Parabéns! Você recebeu:</div>
+            <div class="popup-amount" id="popupAmount">0 Kz</div>
+        </div>
+    </div>
+
+    <!-- LIMIT POPUP -->
+    <div class="overlay" id="limitPopup" style="display: none; background: rgba(0,0,0,0.95);">
+        <div class="popup" style="background: transparent; box-shadow: none;">
+
+            <!-- Animated Checkmark SVG -->
+            <svg class="checkmark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" />
+                <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+            </svg>
+
+            <h2 style="color: #1ed760; font-size: 22px; margin-bottom: 10px;">Limite diário atingido!</h2>
+            <p style="color: #fff; margin-bottom: 30px; font-size: 14px;">Precisa sacar seu saldo hoje?</p>
+
+            <button class="btn-submit" style="background: white; color: black;"
+                onclick="window.location.href='saque.html'">
+                SAQUE AGORA
+            </button>
+
+            <p style="color: #777; font-size: 11px; margin-top: 20px;">Ou espere 24h para continuar avaliando.</p>
+        </div>
+    </div>
+
+    <script>
+        function selectRecommendation(choice) {
+            const btnYes = document.getElementById('btnYes');
+            const btnNo = document.getElementById('btnNo');
+
+            // Reset classes
+            btnYes.classList.remove('selected-yes');
+            btnNo.classList.remove('selected-no');
+
+            // Apply active class
+            if (choice === 'yes') {
+                btnYes.classList.add('selected-yes');
+            } else {
+                btnNo.classList.add('selected-no');
+            }
+        }
+
+        // --- ARTIST & BALANCE LOGIC ---
+
+        const artists = [
+            { name: "Anselmo Ralph", img: "https://www.agendalx.pt/content/uploads/2024/10/anselmo-ralph.png", gender: 'M' },
+            { name: "Matias Damásio", img: "https://www.confidencenews.net/wp-content/uploads/2023/11/matias-damasio-1.png", gender: 'M' },
+            { name: "NZAMBA N’KUNKU MPETELO MESSAMI", img: "https://powerlist100.bantumen.com/wp-content/uploads/2022/12/C4-Pedro_Foto_RhoRho-Couture-e1670033903940.jpg", gender: 'M' },
+            { name: "Pérola", img: "https://platinaline.com/wp-content/uploads/2024/11/WhatsApp-Image-2024-11-04-at-16.52.17.jpeg", gender: 'F' },
+            { name: "Preto Show", img: "https://yt3.googleusercontent.com/Z02Gtzy4UI98xx_i_3rNI3CZCE2cDOgv2SjwNzP4NSxfvRI17khgwmajD8vJVQQDlc6BqBdkyg=s900-c-k-c0x00ffffff-no-rj", gender: 'M' },
+            { name: "Gerilson Insrael", img: "https://i.scdn.co/image/ab67616d00001e026cd01d9ddb1028838dc1c746", gender: 'M' },
+            { name: "Yola Semedo", img: "https://angorussia.com/wp-content/uploads/2024/11/snapinstaapp-429681788-18412743346025453-8334979068066199508-n-1080.jpg", gender: 'F' },
+            { name: "Ary", img: "https://musicosangolanos.com/wp-content/uploads/2023/02/ary.jpg", gender: 'F' }
+        ];
+
+        // State
+        let currentBalance = parseFloat(localStorage.getItem('spotifyAngolaBalance')) || 0;
+        let evaluatedArtists = JSON.parse(localStorage.getItem('spotifyAngolaEvaluated')) || [];
+        let nextRandomArtist = null; // Store next artist for preloading
+        let currentArtist = null; // Track current artist to save to history
+
+        function initPage() {
+            // Update Balance Display
+            updateBalanceDisplay();
+
+            // 1. Try to recover last unfinished artist from storage
+            const savedArtistName = localStorage.getItem('spotifyAngolaCurrentArtist');
+            let artistToLoad = null;
+
+            if (savedArtistName) {
+                // Verify if it exists and hasn't been evaluated yet
+                const found = artists.find(a => a.name === savedArtistName);
+                if (found && !evaluatedArtists.includes(savedArtistName)) {
+                    artistToLoad = found;
+                }
+            }
+
+            // 2. If no valid saved artist, pick a new one
+            if (!artistToLoad) {
+                artistToLoad = getUniqueRandomArtist();
+                // Save immediately so reload keeps it
+                localStorage.setItem('spotifyAngolaCurrentArtist', artistToLoad.name);
+            }
+
+            currentArtist = artistToLoad;
+            loadArtistToUI(artistToLoad);
+        }
+
+        function getUniqueRandomArtist() {
+            // Filter artists that haven't been evaluated yet
+            const availableArtists = artists.filter(artist => !evaluatedArtists.includes(artist.name));
+
+            if (availableArtists.length === 0) {
+                // Return null to signal completion
+                return null;
+            }
+
+            // Pick random from available
+            return availableArtists[Math.floor(Math.random() * availableArtists.length)];
+        }
+
+        function loadArtistToUI(artist) {
+            // Update UI
+            document.getElementById('artistImage').src = artist.img;
+            document.getElementById('artistImage').alt = artist.name;
+
+            // Update all name spans
+            document.getElementById('artistName1').innerText = artist.name;
+            document.getElementById('artistName2').innerText = artist.name;
+            document.getElementById('artistName3').innerText = artist.name;
+
+            // Update Gender Text
+            const textTerm = artist.gender === 'F' ? 'a cantora' : 'o cantor';
+            document.getElementById('genderText1').innerText = textTerm;
+            document.getElementById('genderText2').innerText = textTerm;
+        }
+
+        function updateBalanceDisplay() {
+            // Format: "10.000 Kz"
+            document.querySelector('.balance-container').innerText = currentBalance.toLocaleString('pt-AO') + ' Kz';
+        }
+
+        // Initialize on load
+        window.addEventListener('load', initPage);
+
+        function toggleSelection(btn) {
+            // Simple toggle for age buttons to show interaction
+            // Remove active from siblings
+            const parent = btn.parentElement;
+            const siblings = parent.querySelectorAll('.age-btn'); // Target age-btn specifically
+            siblings.forEach(sib => sib.classList.remove('selected-yes')); // Reusing the green style
+
+            btn.classList.add('selected-yes');
+        }
+
+        // Color slider progress (discrete 3 steps)
+        const slider = document.getElementById('ratingSlider');
+
+        function updateSliderColor() {
+            // Values: 0, 1, 2
+            // Pct: 0%, 50%, 100%
+            const value = slider.value;
+            let percentage = 0;
+            if (value == 1) percentage = 50;
+            if (value == 2) percentage = 100;
+
+            slider.style.background = `linear-gradient(to right, #1ed760 0%, #1ed760 ${percentage}%, #444 ${percentage}%, #444 100%)`;
+        }
+
+        slider.addEventListener('input', updateSliderColor);
+
+        // Allow clicking labels to set slider
+        function setSlider(val) {
+            slider.value = val;
+            updateSliderColor();
+        }
+
+        // Initial call
+        updateSliderColor();
+
+        // Unused Web Audio API function removed for cleanliness
+
+
+        function showReward() {
+            // VALIDATION
+            const btnYes = document.getElementById('btnYes');
+            const btnNo = document.getElementById('btnNo');
+            const isRecomendationSelected = btnYes.classList.contains('selected-yes') || btnNo.classList.contains('selected-no');
+
+            const ageButtons = document.querySelectorAll('.age-btn');
+            let isAgeSelected = false;
+            ageButtons.forEach(btn => {
+                if (btn.classList.contains('selected-yes')) isAgeSelected = true;
+            });
+
+            if (!isRecomendationSelected || !isAgeSelected) {
+                alert("Por favor, responda todas as perguntas antes de enviar.");
+                return;
+            }
+
+            // SAVE CURRENT ARTIST AS EVALUATED
+            if (currentArtist) {
+                evaluatedArtists.push(currentArtist.name);
+                localStorage.setItem('spotifyAngolaEvaluated', JSON.stringify(evaluatedArtists));
+            }
+
+            // PRELOAD NEXT ARTIST
+            // Pick next artist now to give it 2 seconds to load
+            nextRandomArtist = getUniqueRandomArtist();
+            if (nextRandomArtist) {
+                const imgLoader = new Image();
+                imgLoader.src = nextRandomArtist.img;
+            }
+
+            // Play uploaded sound (from MP4)
+            const audio = new Audio('reward_sound.mp4');
+            audio.currentTime = 2.0; // Pula os primeiros 2 segundos (Ajuste se necessário)
+            audio.volume = 1.0;
+            audio.play().catch(e => console.log('Audio playback failed:', e));
+
+            // Random value between 2000 and 10000
+            const randomValue = Math.floor(Math.random() * (10000 - 2000 + 1)) + 2000;
+
+            // Add to balance
+            currentBalance += randomValue;
+            localStorage.setItem('spotifyAngolaBalance', currentBalance);
+            updateBalanceDisplay();
+
+            // Format format: "2.123 Kz"
+            const formattedReward = randomValue.toLocaleString('pt-AO') + ' Kz';
+
+            // Update popup
+            document.getElementById('popupAmount').innerText = formattedReward;
+
+            // Show popup
+            document.getElementById('rewardPopup').style.display = 'flex';
+
+            // Wait 2 seconds then load next artist automatically
+            setTimeout(() => {
+                loadNextArtist();
+            }, 2000);
+        }
+
+        function loadNextArtist() {
+            // Hide popup
+            document.getElementById('rewardPopup').style.display = 'none';
+
+            // Check if there is a next artist
+            const artistToLoad = nextRandomArtist || getUniqueRandomArtist();
+
+            if (!artistToLoad) {
+                // NO MORE ARTISTS! Show Limit Popup
+                document.getElementById('limitPopup').style.display = 'flex';
+                return;
+            }
+
+            currentArtist = artistToLoad;
+
+            // SAVE STATE FOR RELOAD
+            localStorage.setItem('spotifyAngolaCurrentArtist', artistToLoad.name);
+
+            // Load to UI
+            loadArtistToUI(artistToLoad);
+
+            // Reset Form State
+            // 1. Reset Slider
+            setSlider(1);
+
+            // 2. Reset Yes/No Buttons
+            document.getElementById('btnYes').classList.remove('selected-yes');
+            document.getElementById('btnNo').classList.remove('selected-no');
+
+            // 3. Reset Age Buttons
+            const ageButtons = document.querySelectorAll('.age-btn');
+            ageButtons.forEach(btn => {
+                btn.classList.remove('selected-yes');
+            });
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>

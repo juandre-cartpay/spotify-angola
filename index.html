@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify - Avaliador de Música</title>
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1021530033092309');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1021530033092309&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #000000;
+            width: 100%;
+            max-width: 450px;
+            padding: 60px 40px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        p {
+            color: #b3b3b3;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .input-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        input[type="email"] {
+            width: 100%;
+            padding: 14px;
+            background-color: #2a2a2a;
+            border: 1px solid transparent;
+            border-radius: 50px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+            text-align: center;
+        }
+
+        input[type="email"]:focus {
+            border-color: #1ed760;
+            background-color: #333;
+        }
+
+        input[type="email"]::placeholder {
+            color: #a7a7a7;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background-color: #1ed760;
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        .btn-login:hover {
+            background-color: #1fdf64;
+            transform: scale(1.02);
+        }
+
+        .footer-text {
+            margin-top: 30px;
+            font-size: 11px;
+            color: #777;
+            max-width: 300px;
+        }
+
+        .footer-text a {
+            color: #1ed760;
+            text-decoration: none;
+        }
+
+        .superscript {
+            font-size: 10px;
+            vertical-align: super;
+            color: #b3b3b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="#1ed760">
+                <path
+                    d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.299z" />
+            </svg>
+            <span class="logo-text">Spotify<span class="superscript">®</span></span>
+        </div>
+        <h1>Seja bem-vindo ao Spotify Angola</h1>
+        <p>Realize seu login e ganhe dinheiro avaliando artistas de 2025 e ajude a moldar o futuro da música angolana!
+        </p>
+
+        <div class="input-group">
+            <input type="email" id="emailInput" placeholder="Digite seu e-mail">
+        </div>
+
+        <button class="btn-login" onclick="validateAndLogin()">Entrar e ganhar</button>
+
+        <div class="footer-text">
+            Este site é protegido pelo reCAPTCHA e está sujeito à <a href="#">Política de Privacidade</a> e aos <a
+                href="#">Termos de Serviço do Google</a>.
+        </div>
+    </div>
+
+    <script>
+        function validateAndLogin() {
+            const email = document.getElementById('emailInput').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (emailRegex.test(email)) {
+                window.location.href = 'dashboard.html';
+            } else {
+                alert("Por favor, digite um e-mail válido.");
+            }
+        }
+    </script>
+</body>
+
+</html>
