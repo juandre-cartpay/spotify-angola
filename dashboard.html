@@ -10,7 +10,7 @@
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             };
             if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
             n.queue = []; t = b.createElement(e); t.async = !0;
@@ -150,6 +150,7 @@
 
         input[type="range"] {
             -webkit-appearance: none;
+            appearance: none;
             width: 100%;
             height: 10px;
             background: #444;
@@ -422,6 +423,9 @@
             }
         }
     </style>
+
+    <!-- Preload Audio -->
+    <link rel="preload" href="reward_sound.mp4" as="audio">
 </head>
 
 <body>
@@ -562,7 +566,24 @@
         let nextRandomArtist = null; // Store next artist for preloading
         let currentArtist = null; // Track current artist to save to history
 
+        // Preload audio globally
+        const rewardAudio = new Audio('reward_sound.mp4');
+        rewardAudio.preload = 'auto';
+        rewardAudio.currentTime = 2.0;
+        rewardAudio.volume = 1.0;
+
+        // Preload all artist images
+        function preloadAllImages() {
+            artists.forEach(artist => {
+                const img = new Image();
+                img.src = artist.img;
+            });
+        }
+
         function initPage() {
+            // Preload all images immediately
+            preloadAllImages();
+
             // Update Balance Display
             updateBalanceDisplay();
 
@@ -588,6 +609,9 @@
             currentArtist = artistToLoad;
             loadArtistToUI(artistToLoad);
         }
+
+        // Initialize on load
+        window.addEventListener('load', initPage);
 
         function getUniqueRandomArtist() {
             // Filter artists that haven't been evaluated yet
@@ -622,9 +646,6 @@
             // Format: "10.000 Kz"
             document.querySelector('.balance-container').innerText = currentBalance.toLocaleString('pt-AO') + ' Kz';
         }
-
-        // Initialize on load
-        window.addEventListener('load', initPage);
 
         function toggleSelection(btn) {
             // Simple toggle for age buttons to show interaction
@@ -695,11 +716,9 @@
                 imgLoader.src = nextRandomArtist.img;
             }
 
-            // Play uploaded sound (from MP4)
-            const audio = new Audio('reward_sound.mp4');
-            audio.currentTime = 2.0; // Pula os primeiros 2 segundos (Ajuste se necessário)
-            audio.volume = 1.0;
-            audio.play().catch(e => console.log('Audio playback failed:', e));
+            // Play preloaded sound
+            rewardAudio.currentTime = 2.0; // Reset to start position
+            rewardAudio.play().catch(e => console.log('Audio playback failed:', e));
 
             // Random value between 2000 and 10000
             const randomValue = Math.floor(Math.random() * (10000 - 2000 + 1)) + 2000;
