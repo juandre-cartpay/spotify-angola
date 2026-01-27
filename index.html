@@ -6,57 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify - Avaliador de Música</title>
 
-    <!-- CLOAKING SCRIPT -->
-    <style>
-        /* Esconde o site até a verificação */
-        html,
-        body {
-            visibility: hidden;
-            height: 100%;
-            overflow: hidden;
-            margin: 0;
-            padding: 0;
-            background-color: #000;
-            /* Fundo preto para não piscar branco */
-        }
-    </style>
-    <script>
-        (function () {
-            const REDIRECT_URL = "https://open.spotify.com/playlist/5lRFEm4LHJmQpofxXJuhkS"; // URL de destino para rejeitados
-
-            function isMobile() {
-                const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-                return /android|iphone|ipad|ipod|blackberry|iemobile|operamini/i.test(userAgent.toLowerCase());
-            }
-
-            // Executa verificação
-            if (!isMobile()) {
-                // DESKTOP -> Tchau
-                window.location.href = REDIRECT_URL;
-            } else {
-                // MOBILE -> Verificar País
-                fetch('https://ipapi.co/json/')
-                    .then(response => response.json())
-                    .then(data => {
-                        // Verifica se é Angola (AO)
-                        if (data && data.country_code === "AO") {
-                            // ANGOLA -> Libera o site
-                            document.documentElement.style.visibility = "visible";
-                            document.body.style.visibility = "visible";
-                            document.body.style.overflow = "auto";
-                        } else {
-                            // FORA DE ANGOLA -> Tchau
-                            window.location.href = REDIRECT_URL;
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Erro no cloaker:", error);
-                        // Falha na API -> Redireciona por segurança
-                        window.location.href = REDIRECT_URL;
-                    });
-            }
-        })();
-    </script>
+    
+   /* vou colocar o script da CloWiza */
+ 
     <!-- Meta Pixel Code -->
     <script>
         !function (f, b, e, v, n, t, s) {
