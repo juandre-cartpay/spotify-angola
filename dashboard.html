@@ -2,28 +2,34 @@
 <html lang="pt-AO">
 
 <head>
+    <script>
+        if (!sessionStorage.getItem('funnel_started')) {
+            window.location.href = 'index.html';
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Dashboard</title>
 
-    <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '563212462703718');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=563212462703718&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
 
+
+    <!-- Utmify Pixel Code -->
+    <script>
+      window.pixelId = "6a0e9893c555ed914a5d599b";
+      var a = document.createElement("script");
+      a.setAttribute("async", "");
+      a.setAttribute("defer", "");
+      a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+      document.head.appendChild(a);
+    </script>
+    <!-- End Utmify Pixel Code -->
+    <script
+      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+      data-utmify-prevent-xcod-sck
+      data-utmify-prevent-subids
+      async
+      defer
+    ></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -34,12 +40,13 @@ src="https://www.facebook.com/tr?id=563212462703718&ev=PageView&noscript=1"
         }
 
         body {
-            background-color: #000000;
+            background-color: #121212;
             color: white;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
         }
 
         /* Header */
@@ -49,7 +56,7 @@ src="https://www.facebook.com/tr?id=563212462703718&ev=PageView&noscript=1"
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #000;
+            background-color: #121212;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -87,14 +94,31 @@ src="https://www.facebook.com/tr?id=563212462703718&ev=PageView&noscript=1"
             color: #fff;
         }
 
+        /* Page wrapper centers the card */
+        .page-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 20px 16px 40px;
+        }
+
+        /* Card / Moldura */
+        .card {
+            background-color: #000000;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 12px;
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
+            padding: 30px 24px;
+        }
+
         /* Main Content */
         .container {
             width: 100%;
-            max-width: 800px;
-            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 24px;
         }
 
         .section-title {
@@ -443,56 +467,59 @@ src="https://www.facebook.com/tr?id=563212462703718&ev=PageView&noscript=1"
         </div>
     </header>
 
-    <div class="container">
+    <div class="page-wrapper">
+        <div class="card">
+            <div class="container">
 
-        <div class="section-title">Avalie o artista abaixo e ganhe por isso</div>
+                <div class="section-title">Avalie o artista abaixo e ganhe por isso</div>
 
-        <div class="artist-container">
-            <!-- Artist Image -->
-            <img src="" alt="Artista" class="artist-image" id="artistImage">
-        </div>
-
-        <!-- Question 1 -->
-        <div class="question-block">
-            <p class="question-text">De bom a ruim, qual nota você daria para as músicas de <span class="artist-name"
-                    id="artistName1">C4
-                    Pedro</span>?</p>
-            <div class="slider-container">
-                <input type="range" min="0" max="2" step="1" value="1" id="ratingSlider">
-                <div class="slider-labels">
-                    <span onclick="setSlider(0)">Ruim</span>
-                    <span onclick="setSlider(1)">Normal</span>
-                    <span onclick="setSlider(2)">Bom</span>
+                <div class="artist-container">
+                    <!-- Artist Image -->
+                    <img src="" alt="Artista" class="artist-image" id="artistImage">
                 </div>
+
+                <!-- Question 1 -->
+                <div class="question-block">
+                    <p class="question-text">De bom a ruim, qual nota você daria para as músicas de <span class="artist-name"
+                            id="artistName1">C4 Pedro</span>?</p>
+                    <div class="slider-container">
+                        <input type="range" min="0" max="2" step="1" value="1" id="ratingSlider">
+                        <div class="slider-labels">
+                            <span onclick="setSlider(0)">Ruim</span>
+                            <span onclick="setSlider(1)">Normal</span>
+                            <span onclick="setSlider(2)">Bom</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="question-block">
+                    <p class="question-text">Recomendaria <span id="genderText1">o cantor</span> <span class="artist-name"
+                            id="artistName2">C4 Pedro</span> para seus amigos e familiares?</p>
+                    <div class="btn-group">
+                        <button class="btn-option" id="btnYes" onclick="selectRecommendation('yes')">Sim</button>
+                        <button class="btn-option" id="btnNo" onclick="selectRecommendation('no')">Não</button>
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="question-block">
+                    <p class="question-text">Qual faixa etária você acha que mais escuta <span id="genderText2">o cantor</span>
+                        <span class="artist-name" id="artistName3">C4 Pedro</span>?
+                    </p>
+                    <div class="btn-group">
+                        <button class="btn-option age-btn" onclick="toggleSelection(this)">-18 anos</button>
+                        <button class="btn-option age-btn" onclick="toggleSelection(this)">+18 anos</button>
+                    </div>
+                </div>
+
+                <button class="btn-submit" onclick="showReward()">
+                    Enviar respostas
+                    <div class="check-icon">✓</div>
+                </button>
+
             </div>
         </div>
-
-        <!-- Question 2 -->
-        <div class="question-block">
-            <p class="question-text">Recomendaria <span id="genderText1">o cantor</span> <span class="artist-name"
-                    id="artistName2">C4 Pedro</span> para seus amigos e familiares?</p>
-            <div class="btn-group">
-                <button class="btn-option" id="btnYes" onclick="selectRecommendation('yes')">Sim</button>
-                <button class="btn-option" id="btnNo" onclick="selectRecommendation('no')">Não</button>
-            </div>
-        </div>
-
-        <!-- Question 3 -->
-        <div class="question-block">
-            <p class="question-text">Qual faixa etária você acha que mais escuta <span id="genderText2">o cantor</span>
-                <span class="artist-name" id="artistName3">C4 Pedro</span>?
-            </p>
-            <div class="btn-group">
-                <button class="btn-option age-btn" onclick="toggleSelection(this)">-18 anos</button>
-                <button class="btn-option age-btn" onclick="toggleSelection(this)">+18 anos</button>
-            </div>
-        </div>
-
-        <button class="btn-submit" onclick="showReward()">
-            Enviar respostas
-            <div class="check-icon">✓</div>
-        </button>
-
     </div>
 
     <div class="overlay" id="rewardPopup">
@@ -553,7 +580,7 @@ src="https://www.facebook.com/tr?id=563212462703718&ev=PageView&noscript=1"
             { name: "Anselmo Ralph", img: "https://www.agendalx.pt/content/uploads/2024/10/anselmo-ralph.png", gender: 'M' },
             { name: "Matias Damásio", img: "https://www.confidencenews.net/wp-content/uploads/2023/11/matias-damasio-1.png", gender: 'M' },
             { name: "NZAMBA N’KUNKU MPETELO MESSAMI", img: "https://powerlist100.bantumen.com/wp-content/uploads/2022/12/C4-Pedro_Foto_RhoRho-Couture-e1670033903940.jpg", gender: 'M' },
-            { name: "Pérola", img: "https://platinaline.com/wp-content/uploads/2024/11/WhatsApp-Image-2024-11-04-at-16.52.17.jpeg", gender: 'F' },
+            { name: "Pérola", img: "https://scontent.flad4-1.fna.fbcdn.net/v/t51.82787-15/686203564_18596427268051456_9139459598667242096_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=URBFf9rEQZcQ7kNvwExHypN&_nc_oc=Adp71eQzcyNjoxELzaxx89T0NS6espKvJAZGlFTaB8uUS2x-dAAygSVkI7clo0XUmWI&_nc_zt=23&_nc_ht=scontent.flad4-1.fna&_nc_gid=n3uQZ-lOGwLZmT2THq_i7w&_nc_ss=7b2a8&oh=00_Af4XUBpTeEBmwH_iRG64NAIf_rLMJtRwFAODY69BoMG1Yw&oe=6A14678E", gender: 'F' },
             { name: "Preto Show", img: "https://yt3.googleusercontent.com/Z02Gtzy4UI98xx_i_3rNI3CZCE2cDOgv2SjwNzP4NSxfvRI17khgwmajD8vJVQQDlc6BqBdkyg=s900-c-k-c0x00ffffff-no-rj", gender: 'M' },
             { name: "Gerilson Insrael", img: "https://i.scdn.co/image/ab67616d00001e026cd01d9ddb1028838dc1c746", gender: 'M' },
             { name: "Yola Semedo", img: "https://angorussia.com/wp-content/uploads/2024/11/snapinstaapp-429681788-18412743346025453-8334979068066199508-n-1080.jpg", gender: 'F' },
