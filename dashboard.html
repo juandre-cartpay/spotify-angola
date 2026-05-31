@@ -1086,9 +1086,16 @@
         }
 
         function loadArtistToUI(artist) {
+            // Stop any currently playing video first to ensure clean state
+            if (ytPlayer && ytPlayer.stopVideo) {
+                ytPlayer.stopVideo();
+            }
             // Load new video WITHOUT auto-playing (cueVideoById)
             if (ytPlayer && ytPlayer.cueVideoById) {
-                ytPlayer.cueVideoById(artist.videoId);
+                // Small delay to let stopVideo settle before cuing next
+                setTimeout(() => {
+                    ytPlayer.cueVideoById(artist.videoId);
+                }, 150);
                 // Reset player UI
                 isPlaying = false;
                 document.getElementById('playIcon').style.display = 'block';
@@ -1142,6 +1149,13 @@
 
 
         function showReward() {
+            // Stop the current song immediately (in case it's still playing)
+            clearInterval(progressInterval);
+            if (ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
+            isPlaying = false;
+            document.getElementById('playIcon').style.display = 'block';
+            document.getElementById('pauseIcon').style.display = 'none';
+
             // SAVE CURRENT ARTIST AS EVALUATED
             if (currentArtist) {
                 evaluatedArtists.push(currentArtist.name);
