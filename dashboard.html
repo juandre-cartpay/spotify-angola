@@ -151,15 +151,11 @@
             background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%);
         }
 
-        /* Hidden YouTube iframe */
+        /* Visible YouTube iframe */
         #ytPlayer {
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
-            width: 1px;
-            height: 1px;
-            pointer-events: none;
-            opacity: 0;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            display: block;
         }
 
         .custom-player {
@@ -630,26 +626,7 @@
                     <!-- Hidden YouTube Player -->
                     <div id="ytPlayer"></div>
 
-                    <!-- Custom Player UI (minimal) -->
-                    <div class="custom-player">
-                        <button class="player-btn-play" id="playPauseBtn" onclick="togglePlay()">
-                            <svg id="playIcon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z" />
-                            </svg>
-                            <svg id="pauseIcon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"
-                                style="display:none">
-                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-                            </svg>
-                        </button>
-                        <div class="player-time-display">
-                            <span id="currentTime">0:00</span>
-                            <span class="time-sep">/</span>
-                            <span id="totalTime">1:00</span>
-                        </div>
-                        <div class="player-loading" id="playerLoading">
-                            <span class="spin"></span>
-                        </div>
-                    </div>
+
                 </div>
 
                 <div class="questions-wrapper" id="questionsWrapper"
@@ -838,18 +815,17 @@
             if (!currentArtist) {
                 // If limit reached before even loading
                 document.getElementById('limitPopup').style.display = 'flex';
-                document.getElementById('playerLoading').style.display = 'none';
                 return;
             }
 
             localStorage.setItem('spotifyAngolaCurrentArtist', currentArtist.name);
 
             ytPlayer = new YT.Player('ytPlayer', {
-                height: '1',
-                width: '1',
+                height: '360',
+                width: '640',
                 videoId: currentArtist.videoId,
                 playerVars: {
-                    controls: 0,
+                    controls: 1,
                     modestbranding: 1,
                     rel: 0,
                     iv_load_policy: 3,
@@ -867,7 +843,6 @@
         const MAX_SECONDS = 60;
 
         function onPlayerReady(event) {
-            document.getElementById('playerLoading').style.display = 'none';
             ytPlayer.setVolume(80);
         }
 
@@ -901,8 +876,6 @@
         function onPlayerStateChange(event) {
             if (event.data === YT.PlayerState.PLAYING) {
                 isPlaying = true;
-                document.getElementById('playIcon').style.display = 'none';
-                document.getElementById('pauseIcon').style.display = 'block';
                 startProgressUpdate();
 
                 if (!spinnerShown) {
@@ -915,18 +888,7 @@
                 }
             } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
                 isPlaying = false;
-                document.getElementById('playIcon').style.display = 'block';
-                document.getElementById('pauseIcon').style.display = 'none';
                 clearInterval(progressInterval);
-            }
-        }
-
-        function togglePlay() {
-            if (!ytPlayer) return;
-            if (isPlaying) {
-                ytPlayer.pauseVideo();
-            } else {
-                ytPlayer.playVideo();
             }
         }
 
@@ -935,22 +897,14 @@
             progressInterval = setInterval(() => {
                 if (!ytPlayer || !ytPlayer.getCurrentTime) return;
                 const cur = ytPlayer.getCurrentTime();
-                // Stop at 30 seconds
+                // Stop at 60 seconds
                 if (cur >= MAX_SECONDS) {
                     ytPlayer.pauseVideo();
                     ytPlayer.seekTo(0);
-                    document.getElementById('currentTime').textContent = '0:00';
                     clearInterval(progressInterval);
                     return;
                 }
-                document.getElementById('currentTime').textContent = formatTime(cur);
             }, 300);
-        }
-
-        function formatTime(secs) {
-            const m = Math.floor(secs / 60);
-            const s = Math.floor(secs % 60);
-            return m + ':' + (s < 10 ? '0' : '') + s;
         }
 
         function transitionQuestion(currentId, nextId) {
@@ -1093,11 +1047,7 @@
             // Load new video WITHOUT auto-playing (cueVideoById)
             if (ytPlayer && ytPlayer.cueVideoById) {
                 ytPlayer.cueVideoById(artist.videoId);
-                // Reset player UI
                 isPlaying = false;
-                document.getElementById('playIcon').style.display = 'block';
-                document.getElementById('pauseIcon').style.display = 'none';
-                document.getElementById('currentTime').textContent = '0:00';
             }
         }
 
@@ -1150,8 +1100,6 @@
             clearInterval(progressInterval);
             if (ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo();
             isPlaying = false;
-            document.getElementById('playIcon').style.display = 'block';
-            document.getElementById('pauseIcon').style.display = 'none';
 
             // SAVE CURRENT ARTIST AS EVALUATED
             if (currentArtist) {
@@ -1227,9 +1175,6 @@
             // 4. Reset player UI
             isPlaying = false;
             clearInterval(progressInterval);
-            document.getElementById('playIcon').style.display = 'block';
-            document.getElementById('pauseIcon').style.display = 'none';
-            document.getElementById('currentTime').textContent = '0:00';
 
             // 5. Load the new video (cued, not playing)
             loadArtistToUI(artistToLoad);
