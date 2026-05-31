@@ -10,25 +10,11 @@
 
 
 
-    
-    <script
-      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-      data-utmify-prevent-xcod-sck
-      data-utmify-prevent-subids
-      async
-      defer
-    ></script>
-<script>
-  window.pixelId = "6a1aa02138bfbe88dc6754d3";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
 
 
-    
+
+
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -39,8 +25,8 @@
         }
 
         body {
-            background-color: #121212;
-            color: white;
+            background-color: #f0f2f5;
+            color: #121212;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -48,29 +34,31 @@
         }
 
         .container {
-            background-color: #000000;
+            background-color: #ffffff;
             width: 100%;
             max-width: 450px;
             padding: 60px 40px;
             border-radius: 8px;
             text-align: center;
-            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         .logo {
-            margin-bottom: 24px;
+            margin-top: -50px;
+            margin-bottom: 8px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 5px;
         }
 
-        .logo svg {
-            width: 40px;
-            height: 40px;
+        .logo img {
+            width: auto;
+            height: 110px;
         }
 
         .logo-text {
@@ -87,45 +75,60 @@
         }
 
         p {
-            color: #b3b3b3;
+            color: #555555;
             font-size: 14px;
             line-height: 1.5;
             margin-bottom: 30px;
-            font-weight: 400;
+            font-weight: 700;
         }
 
         .input-group {
             width: 100%;
             margin-bottom: 20px;
+            text-align: left;
         }
 
-        input[type="email"] {
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #121212;
+            margin-bottom: 8px;
+            padding-left: 15px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
-            padding: 14px;
-            background-color: #2a2a2a;
-            border: 1px solid transparent;
+            padding: 14px 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
             border-radius: 50px;
-            color: white;
+            color: #333;
             font-size: 16px;
+            font-weight: 700;
             outline: none;
             transition: border-color 0.2s;
-            text-align: center;
+            text-align: left;
         }
 
-        input[type="email"]:focus {
-            border-color: #1ed760;
-            background-color: #333;
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #e60000;
+            background-color: #ffffff;
         }
 
-        input[type="email"]::placeholder {
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder {
             color: #a7a7a7;
+            font-weight: 400;
         }
 
         .btn-login {
             width: 100%;
             padding: 14px;
-            background-color: #1ed760;
-            color: #000;
+            background-color: #e60000;
+            color: #ffffff;
             border: none;
             border-radius: 50px;
             font-size: 16px;
@@ -137,8 +140,35 @@
         }
 
         .btn-login:hover {
-            background-color: #1fdf64;
+            background-color: #cc0000;
             transform: scale(1.02);
+        }
+
+        .btn-login:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+            transform: none;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .footer-text {
@@ -149,14 +179,14 @@
         }
 
         .footer-text a {
-            color: #1ed760;
+            color: #e60000;
             text-decoration: none;
         }
 
         .superscript {
             font-size: 10px;
             vertical-align: super;
-            color: #b3b3b3;
+            color: #888888;
         }
     </style>
 </head>
@@ -164,21 +194,27 @@
 <body>
     <div class="container">
         <div class="logo">
-            <svg viewBox="0 0 24 24" fill="#1ed760">
-                <path
-                    d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.299z" />
-            </svg>
-            <span class="logo-text">Spotify<span class="superscript">®</span></span>
+            <img src="dikala logo.png" alt="Logo">
+
         </div>
-        <h1>Seja bem-vindo ao Spotify Angola</h1>
-        <p>Realize seu login e ganhe dinheiro avaliando artistas de 2025 e ajude a moldar o futuro da música angolana!
+        <h1>Seja bem-vindo ao Dikala Sonora!</h1>
+        <p>
+            A Dikala Sonora é uma plataforma parceira do youtube que conecta artistas e ouvintes. Escute músicas, avalie
+            e deixe sua avaliação e receba
+            dinheiro por ajudar a desenvolver a música no mundo.
         </p>
 
         <div class="input-group">
-            <input type="email" id="emailInput" placeholder="Digite seu e-mail">
+            <label>Digite seu e-mail</label>
+            <input type="email" id="emailInput" placeholder="exemplo@email.com">
         </div>
 
-        <button class="btn-login" onclick="validateAndLogin()">Entrar e ganhar</button>
+        <div class="input-group">
+            <label>Digite uma senha</label>
+            <input type="password" id="passwordInput" placeholder="Sua senha">
+        </div>
+
+        <button class="btn-login" id="loginBtn" onclick="validateAndLogin()">Criar conta</button>
 
         <div class="footer-text">
             Este site é protegido pelo reCAPTCHA e está sujeito à <a href="#">Política de Privacidade</a> e aos <a
@@ -189,11 +225,21 @@
     <script>
         function validateAndLogin() {
             const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const btn = document.getElementById('loginBtn');
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
             if (emailRegex.test(email)) {
-                sessionStorage.setItem('funnel_started', 'true');
-                window.location.href = 'dashboard.html';
+                if (password.length >= 6) {
+                    btn.innerHTML = '<div class="spinner"></div>';
+                    btn.disabled = true;
+                    setTimeout(() => {
+                        sessionStorage.setItem('funnel_started', 'true');
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                } else {
+                    alert("A senha deve ter pelo menos 6 caracteres.");
+                }
             } else {
                 alert("Por favor, digite um e-mail válido.");
             }

