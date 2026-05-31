@@ -863,6 +863,11 @@
         function onPlayerReady(event) {
             document.getElementById('playerLoading').style.display = 'none';
             ytPlayer.setVolume(80);
+            // Load the pending artist now that the player is ready
+            if (pendingArtist) {
+                ytPlayer.cueVideoById(pendingArtist.videoId);
+                pendingArtist = null;
+            }
         }
 
         // --- Question Queue System ---
@@ -1018,6 +1023,10 @@
 
         // Remove preloadAllImages - no longer needed with YouTube API
 
+        // Flag to delay loading until YT player is ready
+        let pageInitDone = false;
+        let pendingArtist = null;
+
         function initPage() {
             // Update Balance Display
             updateBalanceDisplay();
@@ -1027,7 +1036,6 @@
             let artistToLoad = null;
 
             if (savedArtistName) {
-                // Verify if it exists and hasn't been evaluated yet
                 const found = artists.find(a => a.name === savedArtistName);
                 if (found && !evaluatedArtists.includes(savedArtistName)) {
                     artistToLoad = found;
@@ -1037,12 +1045,13 @@
             // 2. If no valid saved artist, pick a new one
             if (!artistToLoad) {
                 artistToLoad = getUniqueRandomArtist();
-                // Save immediately so reload keeps it
                 localStorage.setItem('spotifyAngolaCurrentArtist', artistToLoad.name);
             }
 
             currentArtist = artistToLoad;
-            loadArtistToUI(artistToLoad);
+
+            // Wait for ytPlayer - cue video only when player is ready
+            pendingArtist = artistToLoad;
         }
 
         // Initialize on load
@@ -1089,30 +1098,8 @@
             transitionQuestion('q3', 'btnSubmit');
         }
 
-        // Color slider progress (discrete 3 steps)
-        const slider = document.getElementById('ratingSlider');
-
-        function updateSliderColor() {
-            // Values: 0, 1, 2
-            // Pct: 0%, 50%, 100%
-            const value = slider.value;
-            let percentage = 0;
-            if (value == 1) percentage = 50;
-            if (value == 2) percentage = 100;
-
-            slider.style.background = `linear-gradient(to right, #e60000 0%, #e60000 ${percentage}%, #ddd ${percentage}%, #ddd 100%)`;
-        }
-
-        slider.addEventListener('input', updateSliderColor);
-
-        // Allow clicking labels to set slider
-        function setSlider(val) {
-            slider.value = val;
-            updateSliderColor();
-        }
-
         // Initial call
-        updateSliderColor();
+        // (slider removed - replaced by star rating system)
 
         // Unused Web Audio API function removed for cleanliness
 
