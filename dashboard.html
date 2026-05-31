@@ -792,15 +792,9 @@
     </div>
 
     <div class="overlay" id="rewardPopup">
-        <div class="popup">
-            <div class="coin-wrapper">
-                <div class="coin">
-                    <div class="coin-face front">Kz</div>
-                    <div class="coin-face back">Kz</div>
-                </div>
-            </div>
-            <div class="popup-title">Você ganhou:</div>
-            <div class="popup-amount" id="popupAmount">0 Kz</div>
+        <div class="popup" style="padding: 40px 20px;">
+            <div class="popup-title" style="margin-bottom: 10px;">Você ganhou:</div>
+            <div class="popup-amount" id="popupAmount" style="font-size: 36px; margin: 0;">0 Kz</div>
         </div>
     </div>
 
@@ -1022,11 +1016,29 @@
         let nextRandomArtist = null; // Store next artist for preloading
         let currentArtist = null; // Track current artist to save to history
 
-        // Preload audio globally
-        const rewardAudio = new Audio('reward_sound.mp4');
-        rewardAudio.preload = 'auto';
-        rewardAudio.currentTime = 2.0;
-        rewardAudio.volume = 1.0;
+        // Soft chime using Web Audio API (no external file needed)
+        function playRewardChime() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const notes = [880, 1100]; // A5 + C#6 — suave e harmonioso
+                notes.forEach((freq, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                    const startTime = ctx.currentTime + i * 0.18;
+                    gain.gain.setValueAtTime(0, startTime);
+                    gain.gain.linearRampToValueAtTime(0.25, startTime + 0.03);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 1.2);
+                    osc.start(startTime);
+                    osc.stop(startTime + 1.2);
+                });
+            } catch (e) {
+                console.log('Audio chime failed:', e);
+            }
+        }
 
         // Remove preloadAllImages - no longer needed with YouTube API
 
@@ -1139,9 +1151,8 @@
             // Pick next artist
             nextRandomArtist = getUniqueRandomArtist();
 
-            // Play reward sound
-            rewardAudio.currentTime = 2.0;
-            rewardAudio.play().catch(e => console.log('Audio playback failed:', e));
+            // Play soft reward chime
+            playRewardChime();
 
             // Random value between 2000 and 10000
             const randomValue = Math.floor(Math.random() * (10000 - 2000 + 1)) + 2000;
