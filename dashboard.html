@@ -399,15 +399,52 @@
 
         @media (max-width: 600px) {
             header {
-                padding: 15px 20px;
+                padding: 12px 16px;
+            }
+
+            .logo img {
+                height: 50px;
+            }
+
+            .logo-text {
+                font-size: 16px;
+            }
+
+            .page-wrapper {
+                padding: 10px 8px 30px;
+            }
+
+            .card {
+                padding: 20px 16px;
             }
 
             .container {
-                padding: 15px;
+                padding: 10px 0;
             }
 
-            h1 {
-                font-size: 20px;
+            .btn-group:not(.flex-wrap-group) {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .flex-wrap-group {
+                gap: 8px;
+            }
+
+            .flex-wrap-group .btn-option {
+                flex: 0 1 calc(50% - 4px);
+            }
+
+            .btn-option {
+                padding: 12px 14px;
+                font-size: 14px;
+                white-space: normal;
+                text-align: center;
+                line-height: 1.2;
+            }
+
+            .star {
+                font-size: 32px;
             }
         }
 

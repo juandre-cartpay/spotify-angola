@@ -144,17 +144,28 @@
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
+        @media (max-width: 480px) {
+            .header {
+                padding: 10px 15px;
             }
-
-            50% {
-                transform: scale(1.05);
+            .logo img {
+                height: 50px;
             }
-
-            100% {
-                transform: scale(1);
+            .logo-text {
+                font-size: 16px;
+            }
+            .content {
+                padding: 20px 15px;
+            }
+            h1 {
+                font-size: 18px;
+            }
+            p {
+                font-size: 13px;
+            }
+            .btn-verify {
+                padding: 16px 20px;
+                font-size: 15px;
             }
         }
     </style>
