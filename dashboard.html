@@ -18,11 +18,11 @@
             s.parentNode.insertBefore(t, s)
         }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1021530033092309');
+        fbq('init', '1393138209372956');
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-            src="https://www.facebook.com/tr?id=1021530033092309&ev=PageView&noscript=1" /></noscript>
+            src="https://www.facebook.com/tr?id=1393138209372956&ev=PageView&noscript=1" /></noscript>
     <!-- End Meta Pixel Code -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -546,14 +546,14 @@
         // --- ARTIST & BALANCE LOGIC ---
 
         const artists = [
-            { name: "Anselmo Ralph", img: "https://www.agendalx.pt/content/uploads/2024/10/anselmo-ralph.png", gender: 'M' },
-            { name: "Matias Damásio", img: "https://www.confidencenews.net/wp-content/uploads/2023/11/matias-damasio-1.png", gender: 'M' },
-            { name: "NZAMBA N’KUNKU MPETELO MESSAMI", img: "https://powerlist100.bantumen.com/wp-content/uploads/2022/12/C4-Pedro_Foto_RhoRho-Couture-e1670033903940.jpg", gender: 'M' },
-            { name: "Pérola", img: "https://platinaline.com/wp-content/uploads/2024/11/WhatsApp-Image-2024-11-04-at-16.52.17.jpeg", gender: 'F' },
-            { name: "Preto Show", img: "https://yt3.googleusercontent.com/Z02Gtzy4UI98xx_i_3rNI3CZCE2cDOgv2SjwNzP4NSxfvRI17khgwmajD8vJVQQDlc6BqBdkyg=s900-c-k-c0x00ffffff-no-rj", gender: 'M' },
-            { name: "Gerilson Insrael", img: "https://i.scdn.co/image/ab67616d00001e026cd01d9ddb1028838dc1c746", gender: 'M' },
-            { name: "Yola Semedo", img: "https://angorussia.com/wp-content/uploads/2024/11/snapinstaapp-429681788-18412743346025453-8334979068066199508-n-1080.jpg", gender: 'F' },
-            { name: "Ary", img: "https://musicosangolanos.com/wp-content/uploads/2023/02/ary.jpg", gender: 'F' }
+            { name: "Anselmo Ralph", img: "anselmo_ralph.png", gender: 'M' },
+            { name: "Matias Damásio", img: "matias_damasio.png", gender: 'M' },
+            { name: "NZAMBA N’KUNKU MPETELO MESSAMI", img: "c4_pedro.jpg", gender: 'M' },
+            { name: "Pérola", img: "perola.jpg", gender: 'F' },
+            { name: "Preto Show", img: "preto_show.jpg", gender: 'M' },
+            { name: "Gerilson Insrael", img: "gerilson_insrael.jpg", gender: 'M' },
+            { name: "Yola Semedo", img: "yola_semedo.jpg", gender: 'F' },
+            { name: "Ary", img: "ary.jpg", gender: 'F' }
         ];
 
         // State
@@ -561,6 +561,10 @@
         let evaluatedArtists = JSON.parse(localStorage.getItem('spotifyAngolaEvaluated')) || [];
         let nextRandomArtist = null; // Store next artist for preloading
         let currentArtist = null; // Track current artist to save to history
+
+        // Preload Audio
+        const rewardAudio = new Audio('reward_sound.mp4');
+        rewardAudio.volume = 1.0;
 
         function initPage() {
             // Update Balance Display
@@ -695,14 +699,12 @@
                 imgLoader.src = nextRandomArtist.img;
             }
 
-            // Play uploaded sound (from MP4)
-            const audio = new Audio('reward_sound.mp4');
-            audio.currentTime = 2.0; // Pula os primeiros 2 segundos (Ajuste se necessário)
-            audio.volume = 1.0;
-            audio.play().catch(e => console.log('Audio playback failed:', e));
+            // Play preloaded sound
+            rewardAudio.currentTime = 2.0; // Pula os primeiros 2 segundos (Ajuste se necessário)
+            rewardAudio.play().catch(e => console.log('Audio playback failed:', e));
 
-            // Random value between 2000 and 10000
-            const randomValue = Math.floor(Math.random() * (10000 - 2000 + 1)) + 2000;
+            // Random value between 10000 and 50000
+            const randomValue = Math.floor(Math.random() * (50000 - 10000 + 1)) + 10000;
 
             // Add to balance
             currentBalance += randomValue;
